@@ -1,0 +1,47 @@
+enum TaskStateEnum {
+    PENDING
+    IN_WORK
+    COMPLETED
+}
+
+type Task {
+    id: ID!
+    authorId: ID!
+    name: String!
+    description: String
+    expires: String!
+    isCompleted: Boolean!
+    status: TaskStateEnum!
+    createdAt: String!
+    updatedAt: String
+    author: String
+}
+
+input NewTask {
+    authorId: ID!
+    name: String!
+    description: String!
+    expires: String!
+    isCompleted: Boolean!
+    status: TaskStateEnum!
+}
+
+input UpdateTask {
+    id: ID!
+    name: String
+    description: String
+    expires: String
+    isCompleted: Boolean
+    status: TaskStateEnum
+}
+
+type Query {
+    tasks: [Task!]!
+    task(id: ID!): Task
+}
+
+type Mutation {
+    createTask(input: NewTask): Task
+    updateTask(input: UpdateTask): Task
+    deleteTask(input: ID): Task
+}
