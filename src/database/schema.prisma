@@ -21,7 +21,7 @@ model Task {
   id            Int         @id @default(autoincrement())
   authorId      Int         
   name          String
-  description   String 
+  description   String? 
   expires       DateTime
   isCompleted   Boolean
   status        TaskStatus

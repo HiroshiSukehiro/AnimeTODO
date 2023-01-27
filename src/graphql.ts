@@ -18,7 +18,7 @@ export class NewTask {
     authorId: number;
     name: string;
     description: string;
-    expires: string;
+    expires: DateTime;
     isCompleted: boolean;
     status: TaskStateEnum;
 }
@@ -37,18 +37,18 @@ export class Task {
     authorId: number;
     name: string;
     description?: Nullable<string>;
-    expires: string;
+    expires: DateTime;
     isCompleted: boolean;
     status: TaskStateEnum;
-    createdAt: string;
-    updatedAt?: Nullable<string>;
-    author?: Nullable<string>;
+    createdAt: DateTime;
+    updatedAt?: Nullable<DateTime>;
+    author: string;
 }
 
 export abstract class IQuery {
-    abstract tasks(): Task[] | Promise<Task[]>;
+    abstract tasks(): Nullable<Task[]> | Promise<Nullable<Task[]>>;
 
-    abstract task(id: string): Nullable<Task> | Promise<Nullable<Task>>;
+    abstract task(id: number): Nullable<Task> | Promise<Nullable<Task>>;
 }
 
 export abstract class IMutation {
@@ -59,4 +59,5 @@ export abstract class IMutation {
     abstract deleteTask(input?: Nullable<string>): Nullable<Task> | Promise<Nullable<Task>>;
 }
 
+export type DateTime = any;
 type Nullable<T> = T | null;

@@ -6,11 +6,12 @@
   "private": true,
   "license": "MIT",
   "prisma": {
-    "schema": "src/database/schema.prisma"
+    "schema": "src/database/schema.prisma",
+    "seed": "ts-node src/database/seed.ts"
   },
   "scripts": {
     "start": "node ./dist/main.js",
-    "dev": "ts-node ./src/main.ts",
+    "dev": "ts-node-dev --trace-warnings --exit-child src/main.ts",
     "build": "npx nest build",
     "generate": "prisma generate",
     "seed": "ts-node src/database/seeds/index.ts",

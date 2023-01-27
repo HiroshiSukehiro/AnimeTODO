@@ -9,19 +9,19 @@ type Task {
     authorId: Int!
     name: String!
     description: String
-    expires: String!
+    expires: DateTime!
     isCompleted: Boolean!
     status: TaskStateEnum!
-    createdAt: String!
-    updatedAt: String
-    author: String
+    createdAt: DateTime!
+    updatedAt: DateTime
+    author: String!
 }
 
 input NewTask {
     authorId: Int!
     name: String!
     description: String!
-    expires: String!
+    expires: DateTime!
     isCompleted: Boolean!
     status: TaskStateEnum!
 }
@@ -36,8 +36,8 @@ input UpdateTask {
 }
 
 type Query {
-    tasks: [Task!]!
-    task(id: ID!): Task
+    tasks: [Task!]
+    task(id: Int!): Task
 }
 
 type Mutation {
@@ -45,3 +45,5 @@ type Mutation {
     updateTask(input: UpdateTask): Task
     deleteTask(input: ID): Task
 }
+
+scalar DateTime
