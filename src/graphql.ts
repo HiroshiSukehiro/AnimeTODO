@@ -15,7 +15,7 @@ export enum TaskStateEnum {
 }
 
 export class NewTask {
-    authorId: string;
+    authorId: number;
     name: string;
     description: string;
     expires: string;
@@ -24,7 +24,7 @@ export class NewTask {
 }
 
 export class UpdateTask {
-    id: string;
+    id: number;
     name?: Nullable<string>;
     description?: Nullable<string>;
     expires?: Nullable<string>;
@@ -33,8 +33,8 @@ export class UpdateTask {
 }
 
 export class Task {
-    id: string;
-    authorId: string;
+    id: number;
+    authorId: number;
     name: string;
     description?: Nullable<string>;
     expires: string;

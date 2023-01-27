@@ -5,8 +5,8 @@ enum TaskStateEnum {
 }
 
 type Task {
-    id: ID!
-    authorId: ID!
+    id: Int!
+    authorId: Int!
     name: String!
     description: String
     expires: String!
@@ -18,7 +18,7 @@ type Task {
 }
 
 input NewTask {
-    authorId: ID!
+    authorId: Int!
     name: String!
     description: String!
     expires: String!
@@ -27,7 +27,7 @@ input NewTask {
 }
 
 input UpdateTask {
-    id: ID!
+    id: Int!
     name: String
     description: String
     expires: String
