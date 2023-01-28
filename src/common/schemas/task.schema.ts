@@ -1,4 +1,5 @@
-enum TaskStateEnum {
+export const typeDef = 
+`enum TaskStateEnum {
     PENDING
     IN_WORK
     COMPLETED
@@ -47,4 +48,4 @@ type Mutation {
     deleteTask(input: Int!): Task
 }
 
-scalar DateTime
+scalar DateTime`
