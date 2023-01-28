@@ -13,14 +13,14 @@ datasource db {
 
 model User {
   id            Int         @id @default(autoincrement())
-  email         String
+  email         String      @unique
   username      String      @unique
   passwordHash  String
   firstname     String?
   lastName      String?
   createdAt     DateTime    @default(now())
   deleted       DateTime?
-  posts         Task[]
+  tasks         Task[]
 }
 
 model Task {
@@ -37,7 +37,7 @@ model Task {
 }
 
 enum TaskStatus {
-    PENDING
-    IN_WORK
-    COMPLETED
+  PENDING
+  IN_WORK
+  COMPLETED
 }

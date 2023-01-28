@@ -7,7 +7,7 @@
   "license": "MIT",
   "prisma": {
     "schema": "src/database/schema.prisma",
-    "seed": "ts-node src/database/seed.ts"
+    "seed": "src/database/seeds/index.ts"
   },
   "scripts": {
     "start": "node ./dist/main.js",

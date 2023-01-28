@@ -5,18 +5,16 @@ const prisma = new PrismaClient()
 
 async function main() {
 
-  const alice = await prisma.user.upsert({
-    where: {},
-    update: {},
-    create: {
+  const alice = await prisma.user.create({
+    data: {
       username: "anime",
       email: 'alice@prisma.io',
       passwordHash: 'e2r3erhgy4gtdfergh',
-      posts: {
+      tasks: {
         create: {
           name: 'Check out Prisma with Next.js',
           description: 'https://www.prisma.io/nextjs',
-          expires: new Date(),
+          expires: new Date().toISOString(),
           isCompleted: false,
           status: 'IN_WORK'
         },
@@ -24,26 +22,24 @@ async function main() {
     },
   })
 
-  const bob = await prisma.user.upsert({
-    where: {},
-    update: {},
-    create: {
-      email: 'bob@prisma.io',
+  const bob = await prisma.user.create({
+    data: {
       username: 'Hentai',
+      email: 'bob@prisma.io',
       passwordHash: 'SDfgdhryu46y46yhge5tr',
-      posts: {
+      tasks: {
         create: [
           {
             name: 'Follow Prisma on Twitter',
             description: 'https://twitter.com/prisma',
-            expires: new Date(),
+            expires: new Date().toISOString(),
             isCompleted: false,
             status: 'IN_WORK'
           },
           {
             name: 'Follow Prisma on Twitter',
             description: 'https://twitter.com/prisma',
-            expires: new Date(),
+            expires: new Date().toISOString(),
             isCompleted: false,
             status: 'IN_WORK'
           },
