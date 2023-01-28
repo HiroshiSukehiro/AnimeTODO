@@ -38,11 +38,11 @@ export class UserWithoutPass {
     @IsEmail()
     username: string
 
-    @Field({ nullable: true })
-    firstname?: string
+    @Field(() => String, {nullable: true})
+    firstname?: string | null
     
-    @Field({ nullable: true })
-    lastName?: string
+    @Field(() => String, {nullable: true})
+    lastName?: string | null
 
     @Field(() => Date)
     createdAt: Date
