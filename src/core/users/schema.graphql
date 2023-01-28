@@ -29,12 +29,17 @@ input UpdateUser {
 }
 
 type Query {
-    users: [User!]
-    user(id: Int!): User
+    getAllUsers: [User!]
+    getUser(id: Int!): User
+}
+
+type UserPlusToken {
+    user: User!
+    token: String!
 }
 
 type Mutation {
-    createUser(input: NewUser!): User
+    createUser(input: NewUser!): UserPlusToken
     updateUser(input: UpdateUser!): User
     deleteUser(input: Int!): User
 }

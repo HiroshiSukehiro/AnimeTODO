@@ -16,6 +16,28 @@ export class User {
     @Field()
     passwordHash: string
 
+    @Field(() => String, {nullable: true})
+    firstname?: string | null
+    
+    @Field(() => String, {nullable: true})
+    lastName?: string | null
+
+    @Field(() => Date)
+    createdAt: Date
+}
+
+@ObjectType()
+export class UserWithoutPass {
+    @Field(() => Int)
+    id: number
+
+    @Field()
+    email: string
+
+    @Field()
+    @IsEmail()
+    username: string
+
     @Field({ nullable: true })
     firstname?: string
     
@@ -24,7 +46,4 @@ export class User {
 
     @Field(() => Date)
     createdAt: Date
-
-    @Field(() => Date, { nullable: true })
-    deleted?: Date
 }
