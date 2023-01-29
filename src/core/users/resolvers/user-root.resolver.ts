@@ -2,7 +2,7 @@ import { CreateUserResultType } from "../models/results/create-user-result";
 import { GetUserResultType } from "../models/results/get-user-result";
 import { Field, Mutation, ObjectType, Query, Resolver } from "@nestjs/graphql";
 import { GetUsersResultType } from "../models/results/get-users-result";
-import { CacheInterceptor } from "../../../common/interceptors/cache-interceptors/cache-interceptors";
+import { CacheInterceptor, ReqType } from "../../../common/interceptors/cache-interceptor/cache-interceptor";
 import { UseInterceptors } from "@nestjs/common";
 
 @ObjectType()
@@ -35,6 +35,7 @@ export class UserRootResolver {
         return {};
     }
 
+    @ReqType({query: 'user'})
     @UseInterceptors(CacheInterceptor)
     @Query(() => UserQueryType, { 
         description: 'User queries' 
