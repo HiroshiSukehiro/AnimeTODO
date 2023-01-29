@@ -5,6 +5,7 @@ import { AuthService } from "../../../auth/auth.service";
 import { CreateUserInputType } from "../models/inputs/create-user-input";
 import { User } from "../user";
 import { GetUsersResultType } from "../models/results/get-users-result";
+import { GetUsersInputType } from "../models/inputs/get-users-input";
 
 
 @Injectable()
@@ -22,8 +23,10 @@ export class UserService {
         return {user: user, success: true}
     }
 
-    async getUsers(): Promise<GetUsersResultType> {
-        const userList = await this.prismaService.user.findMany();
+    async getUsers(input: GetUsersInputType): Promise<GetUsersResultType> {
+        const userList = await this.prismaService.user.findMany({
+            where: input
+        });
         console.log(userList)
         return {
             success: true,

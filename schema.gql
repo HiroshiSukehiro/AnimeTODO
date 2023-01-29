@@ -33,20 +33,20 @@ type GetTaskResultType {
   task: Task
 }
 
+type GetTasksResultType {
+  """Request was successful"""
+  success: Boolean!
+
+  """Task list"""
+  tasks: [Task!]
+}
+
 type CreateTaskResultType {
   """Request was successful"""
   success: Boolean!
 
   """Task"""
   task: Task
-}
-
-type GetTasksResultType {
-  """Request was successful"""
-  success: Boolean!
-
-  """Task list"""
-  tasks: Task
 }
 
 type TaskMutationType {
@@ -93,7 +93,7 @@ type GetUsersResultType {
   success: Boolean!
 
   """User list"""
-  users: User
+  users: [User!]
 }
 
 type UserMutationType {
@@ -110,7 +110,10 @@ type UserQueryType {
   ): GetUserResultType!
 
   """Get user list"""
-  getUsers: GetUsersResultType!
+  getUsers(
+    """User id"""
+    id: Int
+  ): GetUsersResultType!
 }
 
 type Query {
