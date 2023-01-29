@@ -62,7 +62,7 @@ export class User {
 
 export class CreateUserResultType {
     success: boolean;
-    task?: Nullable<User>;
+    user?: Nullable<User>;
 }
 
 export class GetUserResultType {
