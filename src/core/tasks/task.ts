@@ -1,11 +1,11 @@
-import { Field, Int, ObjectType, registerEnumType } from "@nestjs/graphql";
-import { User } from "graphql";
+import { Field, Int, ObjectType, registerEnumType } from '@nestjs/graphql';
+import { TaskStatus } from '@prisma/client';
 
-export enum TaskStatus {
-    PENDING = 'PENDING',
-    IN_WORK = 'IN_WORK',
-    COMPLETED = 'COMPLETED'
-}
+// export enum TaskStatus {
+//     PENDING= 'PENDING',
+//     IN_WORK= 'IN_WORK',
+//     COMPLETED= 'COMPLETED'
+// }
 
 registerEnumType(TaskStatus, {
     name: 'TaskStatus'
@@ -22,8 +22,8 @@ export class Task {
     @Field()
     name: string
 
-    @Field({nullable: true})
-    description?: string
+    @Field(()=> String, {nullable: true})
+    description?: string | null 
 
     @Field(() => Date)
     expires: Date
@@ -38,7 +38,7 @@ export class Task {
     createdAt: Date
 
     @Field(() => Date, {nullable: true})
-    updatedAt?: Date
+    updatedAt?: Date | null
 
     // @Field(() => User)
     // author: User

@@ -1,10 +1,11 @@
 // import { Task } from "@prisma/client";
-import { GetTaskResultType } from "../models/results/get-task-result";
-import { Args, Context, Int, Query, ResolveField, Resolver, Root } from "@nestjs/graphql";
-import { TaskQueryType } from "./task-root.resolver";
-import { GetTaskInputType } from "../models/inputs/get-task-input";
-import { TaskService } from "../services/task.service";
-import { GetTasksResultType } from "../models/results/get-tasks-result";
+import { Args, Context, Int, ResolveField, Resolver } from '@nestjs/graphql';
+
+import { GetTaskInputType } from '../models/inputs/get-task-input';
+import { GetTaskResultType } from '../models/results/get-task-result';
+import { GetTasksResultType } from '../models/results/get-tasks-result';
+import { TaskService } from '../services/task.service';
+import { TaskQueryType } from './task-root.resolver';
 
 
 @Resolver(TaskQueryType)
@@ -14,12 +15,9 @@ export class TaskQueryResolver {
     ) {}
 
     @ResolveField(() => GetTaskResultType)
-    async getTask(@Args() input: GetTaskInputType) {
-        
+    async getTask(@Args() input: GetTaskInputType): Promise<GetTaskResultType | null> {
         const task = await this.taskService.getTask(input);
-        console.log('AAAA', task);
-
-        return { task };
+        return { task, success: true };
     }
 
     @ResolveField(() => GetTasksResultType)

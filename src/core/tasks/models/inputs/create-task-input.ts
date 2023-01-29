@@ -1,5 +1,5 @@
 import { ArgsType, Field, Int } from "@nestjs/graphql";
-import { TaskStatus } from "../../task";
+import { TaskStatus } from "@prisma/client";
 
 
 @ArgsType()
