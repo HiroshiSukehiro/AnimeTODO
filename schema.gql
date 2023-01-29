@@ -77,7 +77,7 @@ type CreateUserResultType {
   success: Boolean!
 
   """Task"""
-  task: User
+  user: User
 }
 
 type GetUserResultType {
@@ -91,7 +91,7 @@ type GetUserResultType {
 type UserMutationType {
   """Create user"""
   createTask: CreateUserResultType!
-  createUser: CreateUserResultType!
+  createUser(username: String!, email: String!, password: String!, firstname: String!, lastName: String!): CreateUserResultType!
 }
 
 type UserQueryType {
