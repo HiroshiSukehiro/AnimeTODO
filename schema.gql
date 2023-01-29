@@ -25,7 +25,7 @@ enum TaskStatus {
   COMPLETED
 }
 
-type GetTaskResultType {
+type CreateTaskResultType {
   """Request was successful"""
   success: Boolean!
 
@@ -33,7 +33,8 @@ type GetTaskResultType {
   task: Task
 }
 
-type GetTasksResultType {
+
+type GetTaskResultType {
   """Request was successful"""
   success: Boolean!
 
@@ -44,14 +45,43 @@ type GetTasksResultType {
 type CreateTaskResultType {
   """Request was successful"""
   success: Boolean!
+  """Task list"""
+  tasks: [Task!]
+}
 
-  """Task"""
+type GetTaskByStatusResultType {
+  """Request was successful"""
+  success: Boolean!
+
+  """Get a list of tasks by status"""
+  task: [Task!]
+}
+
+type EditTaskResultType {
+  """Request was successful"""
+  success: Boolean!
+
+  """Edit Task"""
+  task: Task
+}
+
+type DeleteTaskResultType {
+  """Request was successful"""
+  success: Boolean!
+
+  """Delete Task"""
   task: Task
 }
 
 type TaskMutationType {
   """Create task"""
   createTask(authorId: Int!, name: String!, description: String, expires: DateTime!, isCompleted: Boolean!, status: TaskStatus!): CreateTaskResultType!
+
+  """Edit task"""
+  editTask(id: Int!, authorId: Int, name: String, description: String, expires: DateTime, isCompleted: Boolean): EditTaskResultType!
+
+  """Delete task"""
+  deleteTask(id: Int!): DeleteTaskResultType!
 }
 
 type TaskQueryType {
@@ -59,7 +89,11 @@ type TaskQueryType {
   getTask(id: Int!): GetTaskResultType!
 
   """Get task list"""
-  getTasks(authorId: Int, skip: Int, take: Int): GetTasksResultType!
+  getTasks: GetTasksResultType!
+
+  """Get a list of tasks by status"""
+  getTasksByStatus: GetTaskByStatusResultType!
+  getTaskByStatus(status: TaskStatus!): GetTaskByStatusResultType!
 }
 
 type User {
@@ -71,6 +105,7 @@ type User {
   lastName: String
   createdAt: DateTime!
 }
+
 
 type UserWithoutPass {
   id: Int!
@@ -100,7 +135,6 @@ type GetUserResultType {
 type GetUsersResultType {
   """Request was successful"""
   success: Boolean!
-
   """User list"""
   users: [UserWithoutPass!]
 }
@@ -111,6 +145,8 @@ type UpdateUserResultType {
 
   """Task"""
   user: UserWithoutPass
+=======
+  users: [User!]
 }
 
 type UserMutationType {
@@ -129,7 +165,10 @@ type UserQueryType {
   ): GetUserResultType!
 
   """Get user list"""
-  getUsers: GetUsersResultType!
+  getUsers(
+    """User id"""
+    id: Int
+  ): GetUsersResultType!
 }
 
 type Query {

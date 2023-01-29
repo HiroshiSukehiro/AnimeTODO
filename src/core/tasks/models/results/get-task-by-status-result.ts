@@ -4,10 +4,10 @@ import { BaseResultType } from '../../../../common/models/base-result-type';
 import { Task } from '../../task';
 
 @ObjectType()
-export class GetTasksResultType extends BaseResultType {
+export class GetTaskByStatusResultType extends BaseResultType {
     @Field(() => [Task], {
         nullable: true,
-        description: 'Task list',
+        description: 'Get a list of tasks by status',
     })
-    tasks: Task[];
+    task: Task[];
 }

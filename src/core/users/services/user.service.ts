@@ -8,6 +8,8 @@ import { GetUsersResultType } from "../models/results/get-users-result";
 import { GetUserResultType } from "../models/results/get-user-result";
 import { UpdateUserInputType } from "../models/inputs/update-user-input";
 import bcrypt from "bcrypt";
+import { GetUsersInputType } from "../models/inputs/get-users-input";
+
 
 
 @Injectable()

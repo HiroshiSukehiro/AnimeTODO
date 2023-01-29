@@ -26,28 +26,49 @@ export class Task {
     updatedAt?: Nullable<DateTime>;
 }
 
-export class GetTaskResultType {
+export class CreateTaskResultType {
     success: boolean;
     task?: Nullable<Task>;
 }
 
-export class GetTasksResultType {
+
+export class GetTaskResultType {
     success: boolean;
     tasks?: Nullable<Task>;
 }
 
 export class CreateTaskResultType {
     success: boolean;
+    tasks?: Nullable<Task[]>;
+}
+
+export class GetTaskByStatusResultType {
+    success: boolean;
+    task?: Nullable<Task[]>;
+}
+
+export class EditTaskResultType {
+    success: boolean;
+    task?: Nullable<Task>;
+}
+
+export class DeleteTaskResultType {
+    success: boolean;
+
     task?: Nullable<Task>;
 }
 
 export class TaskMutationType {
     createTask: CreateTaskResultType;
+    editTask: EditTaskResultType;
+    deleteTask: DeleteTaskResultType;
 }
 
 export class TaskQueryType {
     getTask: GetTaskResultType;
     getTasks: GetTasksResultType;
+    getTasksByStatus: GetTaskByStatusResultType;
+    getTaskByStatus: GetTaskByStatusResultType;
 }
 
 export class User {
@@ -87,6 +108,7 @@ export class GetUsersResultType {
 export class UpdateUserResultType {
     success: boolean;
     user?: Nullable<UserWithoutPass>;
+    users?: Nullable<User[]>;
 }
 
 export class UserMutationType {
