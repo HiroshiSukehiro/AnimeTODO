@@ -31,12 +31,13 @@ export class CreateTaskResultType {
     task?: Nullable<Task>;
 }
 
+
 export class GetTaskResultType {
     success: boolean;
-    task?: Nullable<Task>;
+    tasks?: Nullable<Task>;
 }
 
-export class GetTasksResultType {
+export class CreateTaskResultType {
     success: boolean;
     tasks?: Nullable<Task[]>;
 }
@@ -53,6 +54,7 @@ export class EditTaskResultType {
 
 export class DeleteTaskResultType {
     success: boolean;
+
     task?: Nullable<Task>;
 }
 
@@ -79,6 +81,15 @@ export class User {
     createdAt: DateTime;
 }
 
+export class UserWithoutPass {
+    id: number;
+    email: string;
+    username: string;
+    firstname?: Nullable<string>;
+    lastName?: Nullable<string>;
+    createdAt: DateTime;
+}
+
 export class CreateUserResultType {
     success: boolean;
     user?: Nullable<User>;
@@ -86,17 +97,23 @@ export class CreateUserResultType {
 
 export class GetUserResultType {
     success: boolean;
-    user?: Nullable<User>;
+    user?: Nullable<UserWithoutPass>;
 }
 
 export class GetUsersResultType {
     success: boolean;
+    users?: Nullable<UserWithoutPass[]>;
+}
+
+export class UpdateUserResultType {
+    success: boolean;
+    user?: Nullable<UserWithoutPass>;
     users?: Nullable<User[]>;
 }
 
 export class UserMutationType {
-    createTask: CreateUserResultType;
     createUser: CreateUserResultType;
+    updateUser: UpdateUserResultType;
 }
 
 export class UserQueryType {

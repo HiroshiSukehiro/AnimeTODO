@@ -28,7 +28,7 @@ export class UserQueryResolver extends UserRootResolver {
     }
 
     @ResolveField(() => GetUsersResultType)
-    async getUsers(@Args() input: GetUsersInputType): Promise<GetUsersResultType> {
-        return await this.userService.getUsers(input)
+    async getUsers(): Promise<GetUsersResultType> {
+        return await this.userService.getUsers()
     }
 }

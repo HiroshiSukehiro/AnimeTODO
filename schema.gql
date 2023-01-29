@@ -33,18 +33,18 @@ type CreateTaskResultType {
   task: Task
 }
 
+
 type GetTaskResultType {
   """Request was successful"""
   success: Boolean!
 
-  """Task"""
-  task: Task
+  """Task list"""
+  tasks: Task
 }
 
-type GetTasksResultType {
+type CreateTaskResultType {
   """Request was successful"""
   success: Boolean!
-
   """Task list"""
   tasks: [Task!]
 }
@@ -106,6 +106,16 @@ type User {
   createdAt: DateTime!
 }
 
+
+type UserWithoutPass {
+  id: Int!
+  email: String!
+  username: String!
+  firstname: String
+  lastName: String
+  createdAt: DateTime!
+}
+
 type CreateUserResultType {
   """Request was successful"""
   success: Boolean!
@@ -119,21 +129,32 @@ type GetUserResultType {
   success: Boolean!
 
   """User"""
-  user: User
+  user: UserWithoutPass
 }
 
 type GetUsersResultType {
   """Request was successful"""
   success: Boolean!
-
   """User list"""
+  users: [UserWithoutPass!]
+}
+
+type UpdateUserResultType {
+  """Request was successful"""
+  success: Boolean!
+
+  """Task"""
+  user: UserWithoutPass
+=======
   users: [User!]
 }
 
 type UserMutationType {
   """Create user"""
-  createTask: CreateUserResultType!
   createUser(username: String!, email: String!, password: String!, firstname: String!, lastName: String!): CreateUserResultType!
+
+  """Update user"""
+  updateUser(username: String!, email: String!, password: String!, firstname: String!, lastName: String!): UpdateUserResultType!
 }
 
 type UserQueryType {
