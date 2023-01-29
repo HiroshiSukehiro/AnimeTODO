@@ -24,7 +24,6 @@ export class UserService {
 
     async getUsers(): Promise<GetUsersResultType> {
         const userList = await this.prismaService.user.findMany();
-        console.log(userList)
         return {
             success: true,
             users: userList

@@ -4,7 +4,7 @@ import { BaseResultType } from "../../../../common/models/base-result-type";
 
 @ObjectType()
 export class GetUsersResultType extends BaseResultType {
-    @Field(() => User, {
+    @Field(() => [User], {
         nullable: true,
         description: 'User list',
     })
