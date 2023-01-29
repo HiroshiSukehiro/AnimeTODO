@@ -24,7 +24,7 @@ export class CacheInterceptor implements NestInterceptor {
 
       const query = this.reflector.get<QueryCacheType>('query', context.getHandler());
       if (Number.isInteger(info.variableValues.id)) 
-      this.cacheService.resolver(query, info.variableValues.id, '')
+      this.cacheService.resolver(query, info.variableValues.id)
 
       const res: Response = gqlContext.getContext();
       console.log('int-res', query);

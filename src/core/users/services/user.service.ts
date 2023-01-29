@@ -3,6 +3,9 @@ import { forwardRef, Inject, Injectable } from "@nestjs/common";
 import { PasswordService } from "../../../auth/password.service";
 import { AuthService } from "../../../auth/auth.service";
 import { CreateUserInputType } from "../models/inputs/create-user-input";
+import { User } from "../user";
+import { GetUsersResultType } from "../models/results/get-users-result";
+import { GetUsersInputType } from "../models/inputs/get-users-input";
 
 
 @Injectable()
@@ -14,15 +17,21 @@ export class UserService {
     ) {}
 
     async getUser(input: any) {
-        return await this.prismaService.user.findUnique({
+        const user = await this.prismaService.user.findUnique({
             where: { id: input.id }
         })
+        return {user: user, success: true}
     }
 
-    async getUsers(input: any) {
-        return await this.prismaService.user.findMany({
-            where: {}
-        })
+    async getUsers(input: GetUsersInputType): Promise<GetUsersResultType> {
+        const userList = await this.prismaService.user.findMany({
+            where: input
+        });
+        console.log(userList)
+        return {
+            success: true,
+            users: userList
+        };
     }
 
     async createUser(input: CreateUserInputType) {
@@ -39,7 +48,7 @@ export class UserService {
               lastName: input.lastName,
               createdAt: new Date()
             }
-        })
+          })
       
         return {user: user, success: true};
     }

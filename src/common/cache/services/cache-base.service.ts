@@ -1,11 +1,13 @@
 import { QueryCacheType } from "../../types/query-type";
 import { InjectRedis, Redis } from "@nestjs-modules/ioredis";
 import { Injectable } from "@nestjs/common";
+import { PrismaService } from "../../../database/prisma.service";
 
 @Injectable()
 export class CacheBaseService {
     constructor(
-        @InjectRedis() protected readonly redis: Redis
+        @InjectRedis() protected readonly redis: Redis,
+        protected readonly prismaService: PrismaService
     ) {}
 
     private async checkExistsOne(queryType: QueryCacheType, id: number,) {
@@ -22,13 +24,18 @@ export class CacheBaseService {
         return value;
     }
 
-    private async inc(queryType: QueryCacheType, id: number,) {
-        const value = await this.redis.incr(`${queryType.query}:${id}:count`);
+    private async incCounter(queryType: QueryCacheType, id: number) {
+        const key = `${queryType.query}:${id}:count`;
+
+        await this.redis.setnx(key, 0);
+        const value = await this.redis.incr(key);
+        return value;
     }
 
-    async resolver(queryType: QueryCacheType, id: number, data: string) {
+    async resolver(queryType: QueryCacheType, id: number) {
         const exists = await this.checkExistsOne(queryType, id);
         console.log('REDIS EXISTS', exists);
         
+        this.incCounter(queryType, id);
     }
 }

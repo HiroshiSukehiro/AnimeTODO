@@ -33,10 +33,10 @@ export class CreateTaskResultType {
 
 export class GetTaskResultType {
     success: boolean;
-    task?: Nullable<Task>;
+    tasks?: Nullable<Task[]>;
 }
 
-export class GetTasksResultType {
+export class CreateTaskResultType {
     success: boolean;
     tasks?: Nullable<Task[]>;
 }
@@ -44,6 +44,7 @@ export class GetTasksResultType {
 export class GetTaskByStatusResultType {
     success: boolean;
     task?: Nullable<Task[]>;
+
 }
 
 export class TaskMutationType {
@@ -77,6 +78,11 @@ export class GetUserResultType {
     user?: Nullable<User>;
 }
 
+export class GetUsersResultType {
+    success: boolean;
+    users?: Nullable<User[]>;
+}
+
 export class UserMutationType {
     createTask: CreateUserResultType;
     createUser: CreateUserResultType;
@@ -84,7 +90,7 @@ export class UserMutationType {
 
 export class UserQueryType {
     getUser: GetUserResultType;
-    getUsers: GetUserResultType;
+    getUsers: GetUsersResultType;
 }
 
 export abstract class IQuery {

@@ -11,6 +11,7 @@ import { UserService } from "../services/user.service";
 import { GetUserInputType } from "../models/inputs/get-user-input";
 import { GetUserResultType } from "../models/results/get-user-result";
 import { GetUsersResultType } from "../models/results/get-users-result";
+import { GetUsersInputType } from "../models/inputs/get-users-input";
 
 
 @Resolver(UserQueryType)
@@ -20,19 +21,14 @@ export class UserQueryResolver extends UserRootResolver {
     ) {
         super()
     }
-        
-    
 
     @ResolveField(() => GetUserResultType)
-    async getUser(@Args() input: GetUserInputType): Promise<User | null> {
+    async getUser(@Args() input: GetUserInputType): Promise<GetUserResultType> {
         return await this.userService.getUser(input);
     }
 
     @ResolveField(() => GetUsersResultType)
-    async getUsers(
-        @Args('skip', { nullable: true, type: () => Int }) skip: number,
-        @Args('take', { nullable: true, type: () => Int }) take: number,
-    ): Promise<User[]> {
-        return await this.userService.getUsers(null)
+    async getUsers(@Args() input: GetUsersInputType): Promise<GetUsersResultType> {
+        return await this.userService.getUsers(input)
     }
 }
