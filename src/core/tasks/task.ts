@@ -34,7 +34,7 @@ export class Task {
     @Field(() => TaskStatus)
     status: TaskStatus
 
-    @Field(() => Date)
+    @Field(() => Date, {defaultValue: new Date()})
     createdAt: Date
 
     @Field(() => Date, {nullable: true})

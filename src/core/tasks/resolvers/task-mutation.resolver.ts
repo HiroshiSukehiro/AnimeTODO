@@ -17,10 +17,15 @@ export class TaskMutationResolver extends TaskRootResolver {
 
     @ResolveField(() => CreateTaskResultType)
     async createTask(@Args() input: CreateTaskInputType) {
-        console.log("Hi")
         const task = await this.taskService.createTask(input);
-        console.log(task)
         return {task, success: true}
+    }
+
+    async editTask(){
+        
+    }
+    async deleteTask(){
+
     }
 
 }

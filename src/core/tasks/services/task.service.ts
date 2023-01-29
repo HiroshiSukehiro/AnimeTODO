@@ -12,17 +12,26 @@ export class TaskService {
     ) {}
 
     async getTask(input: GetTaskInputType) {
-        return await this.prismaService.task.findUnique({where: {id: input.id}});
+        const task = await this.prismaService.task.findUnique({where: {id: input.id}});
+        if(!!task?.id){
+            return { task, success: true }
+        }
+        return { task: null, success: false }
     }
     
     async getTasks(input: any) {
         return await this.prismaService.task.findMany({
-            where: {
-                ...input
-            }
-        })
+        where: {
+            ...input
+        }
+     })
     }
-    async createTask(data: CreateTaskInputType){
-        return await this.prismaService.task.create({data})
+    
+    async createTask(input: CreateTaskInputType){
+        return   await this.prismaService.task.create({data: {
+        ...input,
+        createdAt: new Date(),
+        updatedAt: new Date()
+     }})
     }
 }

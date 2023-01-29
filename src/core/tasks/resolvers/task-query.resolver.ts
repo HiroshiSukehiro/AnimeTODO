@@ -16,8 +16,7 @@ export class TaskQueryResolver {
 
     @ResolveField(() => GetTaskResultType)
     async getTask(@Args() input: GetTaskInputType): Promise<GetTaskResultType | null> {
-        const task = await this.taskService.getTask(input);
-        return { task, success: true };
+        return await this.taskService.getTask(input);
     }
 
     @ResolveField(() => GetTasksResultType)
