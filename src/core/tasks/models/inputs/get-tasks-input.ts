@@ -3,21 +3,21 @@ import { ArgsType, Field, Int } from '@nestjs/graphql';
 @ArgsType()
 export class GetTasksInputType  {
     @Field(() => Int)
-    id?: number
+    id: number
 
-    @Field(() => Int)
+    @Field(() => Int, {nullable: true})
     authorId?: number
 
-    @Field()
+    @Field( {nullable: true})
     name?: string
 
     @Field(()=> String, {nullable: true})
     description?: string | null 
 
-    @Field(() => Date)
+    @Field(() => Date, {nullable: true})
     expires?: Date
 
-    @Field(() => Boolean)
+    @Field(() => Boolean, {nullable: true})
     isCompleted?: boolean
 } 
 

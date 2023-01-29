@@ -1,7 +1,7 @@
 // import { Task } from "@prisma/client";
 import { Args, ResolveField, Resolver } from '@nestjs/graphql';
 
-import { GetTaskByStatusInputType, GetTaskInputType, GetTasksInputType } from '../models/inputs';
+import { GetTaskByStatusInputType, GetTaskInputType } from '../models/inputs';
 import { GetTaskByStatusResultType, GetTaskResultType, GetTasksResultType } from '../models/results';
 import { TaskService } from '../services/task.service';
 import { TaskQueryType } from './task-root.resolver';
@@ -21,15 +21,13 @@ export class TaskQueryResolver {
     //Promise<GetTaskByStatusResultType>
     @ResolveField(() => GetTaskByStatusResultType)
     async getTaskByStatus(@Args() input: GetTaskByStatusInputType)  {
-        const task = await this.taskService.getTaskByStatus(input)
-        console.log(task)
-        return await task;
+        return await this.taskService.getTaskByStatus(input);
+        
     }
 
     @ResolveField(() => GetTasksResultType)
-    async getTasks(
-        @Args() input: GetTasksInputType,
-    ) {
-        return await this.taskService.getTasks(input);
+    async getTasks() {
+        return await this.taskService.getTasks();
+  
     }
 }

@@ -33,10 +33,10 @@ export class CreateTaskResultType {
 
 export class GetTaskResultType {
     success: boolean;
-    tasks?: Nullable<Task[]>;
+    task?: Nullable<Task>;
 }
 
-export class CreateTaskResultType {
+export class GetTasksResultType {
     success: boolean;
     tasks?: Nullable<Task[]>;
 }
@@ -44,11 +44,22 @@ export class CreateTaskResultType {
 export class GetTaskByStatusResultType {
     success: boolean;
     task?: Nullable<Task[]>;
+}
 
+export class EditTaskResultType {
+    success: boolean;
+    task?: Nullable<Task>;
+}
+
+export class DeleteTaskResultType {
+    success: boolean;
+    task?: Nullable<Task>;
 }
 
 export class TaskMutationType {
     createTask: CreateTaskResultType;
+    editTask: EditTaskResultType;
+    deleteTask: DeleteTaskResultType;
 }
 
 export class TaskQueryType {

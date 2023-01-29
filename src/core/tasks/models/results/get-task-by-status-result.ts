@@ -11,5 +11,3 @@ export class GetTaskByStatusResultType extends BaseResultType {
     })
     task: Task[];
 }
-
-

@@ -29,12 +29,9 @@ export class TaskService {
         return {task, success: true}
     }
     
-    async getTasks(input: GetTasksInputType) {
-        return await this.prismaService.task.findMany({
-        where: {
-            ...input
-        }
-     })
+    async getTasks() {
+        const tasks = await this.prismaService.task.findMany();
+        return {tasks, success: true}
     }
     
     async createTask(input: CreateTaskInputType){

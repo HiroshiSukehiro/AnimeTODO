@@ -2,7 +2,14 @@ import { UseInterceptors } from '@nestjs/common';
 import { Field, Mutation, ObjectType, Query, Resolver } from '@nestjs/graphql';
 
 import { CacheInterceptor, ReqType } from '../../../common/interceptors/cache-interceptor/cache-interceptor';
-import { CreateTaskResultType, GetTaskByStatusResultType, GetTaskResultType, GetTasksResultType } from '../models/results';
+import {
+    CreateTaskResultType,
+    DeleteTaskResultType,
+    EditTaskResultType,
+    GetTaskByStatusResultType,
+    GetTaskResultType,
+    GetTasksResultType,
+} from '../models/results';
 
 @ObjectType()
 export class TaskMutationType {
@@ -10,6 +17,16 @@ export class TaskMutationType {
         description: 'Create task',
     })
     createTask: CreateTaskResultType;
+
+    @Field(() => EditTaskResultType, {
+        description: 'Edit task',
+    })
+    editTask: EditTaskResultType;
+
+    @Field(() => DeleteTaskResultType, {
+        description: 'Delete task',
+    })
+    deleteTask: DeleteTaskResultType;
 }
 
 @ObjectType()

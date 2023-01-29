@@ -1,7 +1,7 @@
 import { Args, ResolveField, Resolver } from '@nestjs/graphql';
 
 import { CreateTaskInputType, GetTaskInputType, GetTasksInputType } from '../models/inputs';
-import { CreateTaskResultType } from '../models/results';
+import { CreateTaskResultType, DeleteTaskResultType, EditTaskResultType } from '../models/results';
 import { TaskMutationType, TaskRootResolver } from '../resolvers/task-root.resolver';
 import { TaskService } from '../services/task.service';
 
@@ -21,11 +21,14 @@ export class TaskMutationResolver extends TaskRootResolver {
         return {task, success: true}
     }
 
-    async editTask(input: GetTasksInputType){
-        const task = await this.taskService.editTask(input);
-        return {task, success: true}
+    @ResolveField(() => EditTaskResultType)
+    async editTask(@Args() input: GetTasksInputType){
+        console.log(input)
+        return await this.taskService.editTask(input);
     }
-    async deleteTask(id: GetTaskInputType){
+
+    @ResolveField(() => DeleteTaskResultType)
+    async deleteTask(@Args() id: GetTaskInputType){
         const task = await this.taskService.deleteTask(id);
         return {task, success: true}
     }

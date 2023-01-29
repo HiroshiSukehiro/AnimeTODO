@@ -25,6 +25,14 @@ enum TaskStatus {
   COMPLETED
 }
 
+type CreateTaskResultType {
+  """Request was successful"""
+  success: Boolean!
+
+  """Task"""
+  task: Task
+}
+
 type GetTaskResultType {
   """Request was successful"""
   success: Boolean!
@@ -41,17 +49,39 @@ type GetTasksResultType {
   tasks: [Task!]
 }
 
-type CreateTaskResultType {
+type GetTaskByStatusResultType {
   """Request was successful"""
   success: Boolean!
 
-  """Task"""
+  """Get a list of tasks by status"""
+  task: [Task!]
+}
+
+type EditTaskResultType {
+  """Request was successful"""
+  success: Boolean!
+
+  """Edit Task"""
+  task: Task
+}
+
+type DeleteTaskResultType {
+  """Request was successful"""
+  success: Boolean!
+
+  """Delete Task"""
   task: Task
 }
 
 type TaskMutationType {
   """Create task"""
   createTask(authorId: Int!, name: String!, description: String, expires: DateTime!, isCompleted: Boolean!, status: TaskStatus!): CreateTaskResultType!
+
+  """Edit task"""
+  editTask(id: Int!, authorId: Int, name: String, description: String, expires: DateTime, isCompleted: Boolean): EditTaskResultType!
+
+  """Delete task"""
+  deleteTask(id: Int!): DeleteTaskResultType!
 }
 
 type TaskQueryType {
@@ -59,7 +89,11 @@ type TaskQueryType {
   getTask(id: Int!): GetTaskResultType!
 
   """Get task list"""
-  getTasks(authorId: Int, skip: Int, take: Int): GetTasksResultType!
+  getTasks: GetTasksResultType!
+
+  """Get a list of tasks by status"""
+  getTasksByStatus: GetTaskByStatusResultType!
+  getTaskByStatus(status: TaskStatus!): GetTaskByStatusResultType!
 }
 
 type User {
