@@ -12,15 +12,13 @@ services:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     volumes:
       - ./pgdata:/var/lib/postgresql/data
-  cache:
+  redis:
     image: redis
     restart: always
     ports:
       - '${REDIS_PORT}:${REDIS_PORT}'
-    command: redis-server
-    volumes: 
-      - ./cache:/var/lib/redis/data
-    environment: 
-      - REDIS_URL=${REDIS_URL}
-
-  
+    volumes:
+      - redis:/data
+volumes:
+  redis:
+    driver: local
