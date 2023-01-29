@@ -1,6 +1,8 @@
-import { PrismaService } from "../../../database/prisma.service";
-import { Injectable } from "@nestjs/common";
-import { GetTaskInputType } from "../models/inputs/get-task-input";
+import { Injectable } from '@nestjs/common';
+
+import { PrismaService } from '../../../database/prisma.service';
+import { CreateTaskInputType } from '../models/inputs/create-task-input';
+import { GetTaskInputType } from '../models/inputs/get-task-input';
 
 
 @Injectable()
@@ -10,14 +12,26 @@ export class TaskService {
     ) {}
 
     async getTask(input: GetTaskInputType) {
-        return await this.prismaService.task.findUnique({where: {id: input.id}});
+        const task = await this.prismaService.task.findUnique({where: {id: input.id}});
+        if(!!task?.id){
+            return { task, success: true }
+        }
+        return { task: null, success: false }
     }
     
     async getTasks(input: any) {
         return await this.prismaService.task.findMany({
-            where: {
-                
-            }
-        })
+        where: {
+            ...input
+        }
+     })
+    }
+    
+    async createTask(input: CreateTaskInputType){
+        return   await this.prismaService.task.create({data: {
+        ...input,
+        createdAt: new Date(),
+        updatedAt: new Date()
+     }})
     }
 }

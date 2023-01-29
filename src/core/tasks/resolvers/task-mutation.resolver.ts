@@ -1,24 +1,31 @@
-import { PrismaService } from "../../../database/prisma.service";
-import { Args, Field, ObjectType, ResolveField, Resolver } from "@nestjs/graphql";
-import { CreateTaskInputType } from "../models/inputs/create-task-input";
-import { CreateTaskResultType } from "../models/results/create-task-result";
-import { TaskMutationType, TaskRootResolver } from "../resolvers/task-root.resolver";
+import { Args, ResolveField, Resolver } from '@nestjs/graphql';
+
+import { CreateTaskInputType } from '../models/inputs/create-task-input';
+import { CreateTaskResultType } from '../models/results/create-task-result';
+import { TaskMutationType, TaskRootResolver } from '../resolvers/task-root.resolver';
+import { TaskService } from '../services/task.service';
 
 
 
 @Resolver(TaskMutationType)
 export class TaskMutationResolver extends TaskRootResolver {
     constructor(
-        private readonly prismaService: PrismaService
+        private readonly taskService: TaskService
     ) {
         super();
     }
 
     @ResolveField(() => CreateTaskResultType)
-    createTask(@Args() input: CreateTaskInputType) {
-        // return this.prismaService.task.findUnique({
-        //     where: { id }
-        // })
+    async createTask(@Args() input: CreateTaskInputType) {
+        const task = await this.taskService.createTask(input);
+        return {task, success: true}
+    }
+
+    async editTask(){
+        
+    }
+    async deleteTask(){
+
     }
 
 }
