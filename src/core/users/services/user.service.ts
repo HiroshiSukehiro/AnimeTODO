@@ -3,8 +3,11 @@ import { forwardRef, Inject, Injectable } from "@nestjs/common";
 import { PasswordService } from "../../../auth/password.service";
 import { AuthService } from "../../../auth/auth.service";
 import { CreateUserInputType } from "../models/inputs/create-user-input";
-import { User } from "../user";
+import { GetUserInputType } from "../models/inputs/get-user-input";
 import { GetUsersResultType } from "../models/results/get-users-result";
+import { GetUserResultType } from "../models/results/get-user-result";
+import { UpdateUserInputType } from "../models/inputs/update-user-input";
+import bcrypt from "bcrypt";
 
 
 @Injectable()
@@ -15,19 +18,25 @@ export class UserService {
         private authService: AuthService
     ) {}
 
-    async getUser(input: any) {
+    async getUser(input: GetUserInputType): Promise<GetUserResultType> {
         const user = await this.prismaService.user.findUnique({
             where: { id: input.id }
         })
-        return {user: user, success: true}
+        if (!user) {return {user: null, success: false}}
+        const {passwordHash, ...data} = user;
+        return {user: data, success: true}
     }
 
     async getUsers(): Promise<GetUsersResultType> {
         const userList = await this.prismaService.user.findMany();
-        console.log(userList)
+        let userArr = [];
+        for(let i = 0; i < userList.length; i++) {
+            const {passwordHash, ...data} = userList[i];
+            userArr.push(data);
+        }
         return {
             success: true,
-            users: userList
+            users: userArr
         };
     }
 
@@ -48,5 +57,34 @@ export class UserService {
           })
       
         return {user: user, success: true};
+    }
+
+    async updateUser(input: UpdateUserInputType) {
+        const { email, password, ...data } = input;
+        const user = await this.prismaService.user.findFirst({
+            where: {
+                email
+            }
+        })
+
+        if(!user) {return {user: null, success: false}}
+        const isValid = bcrypt.compareSync(password, user.passwordHash);
+
+        if (isValid) {
+            const updatedUser = await this.prismaService.user.update({
+                where: {
+                    email
+                },
+                data: {
+                    email: input.email,
+                    firstname: input.firstname || user.firstname,
+                    lastName: input.lastName || user.lastName,
+                    username: input.username || user.username
+                }
+            });
+            return { user: updatedUser, success: true }
+        } else {
+            return { user: user, success: false }
+        }
     }
 }
