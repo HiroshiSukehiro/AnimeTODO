@@ -27,10 +27,10 @@ export class UserService {
 
     async createUser(input: CreateUserInputType) {
         const encryptedPassword = await this.passwordService.hashPassword(
-            input.password,
-          );
+          input.password,
+        );
             
-          const user = await this.prismaService.user.create({
+        const user = await this.prismaService.user.create({
             data: {
               email: input.email,
               username: input.username,
@@ -39,10 +39,8 @@ export class UserService {
               lastName: input.lastName,
               createdAt: new Date()
             }
-          })
-            
-            let jwtToken = await this.authService.login({login: input.email, password: input.password});
+        })
       
-            return {user: user, token: jwtToken.accessToken};
+        return {user: user, success: true};
     }
 }

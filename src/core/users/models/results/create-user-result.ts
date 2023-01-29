@@ -9,5 +9,5 @@ export class CreateUserResultType extends BaseResultType {
         nullable: true,
         description: 'Task',
     })
-    task: User | null;
+    user: User | null;
 }
