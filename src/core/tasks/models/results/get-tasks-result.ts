@@ -4,7 +4,7 @@ import { BaseResultType } from "../../../../common/models/base-result-type";
 
 @ObjectType()
 export class GetTasksResultType extends BaseResultType {
-    @Field(() => Task, {
+    @Field(() => [Task], {
         nullable: true,
         description: 'Task list',
     })
