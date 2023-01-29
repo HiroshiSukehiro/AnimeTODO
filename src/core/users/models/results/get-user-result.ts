@@ -1,0 +1,14 @@
+import { BaseResultType } from "../../../../common/models/base-result-type";
+import { Field, ObjectType } from "@nestjs/graphql";
+import { User } from "../../user";
+
+
+
+@ObjectType()
+export class GetUserResultType extends BaseResultType {
+    @Field(() => User, {
+        nullable: true,
+        description: 'User',
+    })
+    user: User | null;
+}

@@ -1,9 +1,10 @@
 import { Field, Int, ObjectType, registerEnumType } from "@nestjs/graphql";
+import { User } from "graphql";
 
 export enum TaskStatus {
-    PENDING,
-    IN_WORK,
-    COMPLETED
+    PENDING = 'PENDING',
+    IN_WORK = 'IN_WORK',
+    COMPLETED = 'COMPLETED'
 }
 
 registerEnumType(TaskStatus, {
@@ -39,6 +40,6 @@ export class Task {
     @Field(() => Date, {nullable: true})
     updatedAt?: Date
 
-    @Field(() => Object)
-    author: Object
+    // @Field(() => User)
+    // author: User
 }

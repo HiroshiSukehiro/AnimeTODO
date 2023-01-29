@@ -1,0 +1,122 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Task {
+  id: Int!
+  authorId: Int!
+  name: String!
+  description: String
+  expires: DateTime!
+  isCompleted: Boolean!
+  status: TaskStatus!
+  createdAt: DateTime!
+  updatedAt: DateTime
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+enum TaskStatus {
+  PENDING
+  IN_WORK
+  COMPLETED
+}
+
+type GetTaskResultType {
+  """Request was successful"""
+  success: Boolean!
+
+  """Task"""
+  task: Task
+}
+
+type CreateTaskResultType {
+  """Request was successful"""
+  success: Boolean!
+
+  """Task"""
+  task: Task
+}
+
+type GetTasksResultType {
+  """Request was successful"""
+  success: Boolean!
+
+  """Task list"""
+  tasks: Task
+}
+
+type TaskMutationType {
+  """Create task"""
+  createTask(authorId: Int!, name: String!, description: String, expires: DateTime!, isCompleted: Boolean!, status: TaskStatus!): CreateTaskResultType!
+}
+
+type TaskQueryType {
+  """Get user by ID"""
+  getTask(id: Int!): GetTaskResultType!
+
+  """Get task list"""
+  getTasks(authorId: Int, skip: Int, take: Int): GetTasksResultType!
+}
+
+type User {
+  id: Int!
+  email: String!
+  username: String!
+  passwordHash: String!
+  firstname: String
+  lastName: String
+  createdAt: DateTime!
+}
+
+type CreateUserResultType {
+  """Request was successful"""
+  success: Boolean!
+
+  """Task"""
+  task: User
+}
+
+type GetUserResultType {
+  """Request was successful"""
+  success: Boolean!
+
+  """User"""
+  user: User
+}
+
+type UserMutationType {
+  """Create user"""
+  createTask: CreateUserResultType!
+  createUser: CreateUserResultType!
+}
+
+type UserQueryType {
+  """Get user by ID"""
+  getUser(
+    """User id"""
+    id: Int
+  ): GetUserResultType!
+
+  """Get user list"""
+  getUsers(skip: Int, take: Int): GetUserResultType!
+}
+
+type Query {
+  """Task queries"""
+  taskQueries: TaskQueryType!
+
+  """User queries"""
+  userQueries: UserQueryType!
+}
+
+type Mutation {
+  """Task mutations"""
+  taskMutations: TaskMutationType!
+
+  """User mutations"""
+  userMutations: UserMutationType!
+}

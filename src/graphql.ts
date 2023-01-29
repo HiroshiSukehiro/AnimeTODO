@@ -8,45 +8,10 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export enum TaskStateEnum {
+export enum TaskStatus {
     PENDING = "PENDING",
     IN_WORK = "IN_WORK",
     COMPLETED = "COMPLETED"
-}
-
-export class NewTask {
-    authorId: number;
-    name: string;
-    description: string;
-    expires: DateTime;
-    isCompleted: boolean;
-    status: TaskStateEnum;
-}
-
-export class UpdateTask {
-    id: number;
-    name?: Nullable<string>;
-    description?: Nullable<string>;
-    expires?: Nullable<string>;
-    isCompleted?: Nullable<boolean>;
-    status?: Nullable<TaskStateEnum>;
-}
-
-export class NewUser {
-    email: string;
-    username: string;
-    password: string;
-    firstname?: Nullable<string>;
-    lastName?: Nullable<string>;
-}
-
-export class UpdateUser {
-    id: number;
-    email?: Nullable<string>;
-    username?: Nullable<string>;
-    passwordHash?: Nullable<string>;
-    firstname?: Nullable<string>;
-    lastName?: Nullable<string>;
 }
 
 export class Task {
@@ -56,46 +21,75 @@ export class Task {
     description?: Nullable<string>;
     expires: DateTime;
     isCompleted: boolean;
-    status: TaskStateEnum;
+    status: TaskStatus;
     createdAt: DateTime;
     updatedAt?: Nullable<DateTime>;
-    deleted?: Nullable<boolean>;
-    author: User;
 }
 
-export abstract class IQuery {
-    abstract tasks(): Nullable<Task[]> | Promise<Nullable<Task[]>>;
-
-    abstract task(id: number): Nullable<Task> | Promise<Nullable<Task>>;
-
-    abstract users(): Nullable<User[]> | Promise<Nullable<User[]>>;
-
-    abstract user(id: number): Nullable<User> | Promise<Nullable<User>>;
+export class GetTaskResultType {
+    success: boolean;
+    task?: Nullable<Task>;
 }
 
-export abstract class IMutation {
-    abstract createTask(input: NewTask): Nullable<Task> | Promise<Nullable<Task>>;
+export class CreateTaskResultType {
+    success: boolean;
+    task?: Nullable<Task>;
+}
 
-    abstract updateTask(input: UpdateTask): Nullable<Task> | Promise<Nullable<Task>>;
+export class GetTasksResultType {
+    success: boolean;
+    tasks?: Nullable<Task>;
+}
 
-    abstract deleteTask(input: number): Nullable<Task> | Promise<Nullable<Task>>;
+export class TaskMutationType {
+    createTask: CreateTaskResultType;
+}
 
-    abstract createUser(input: NewUser): Nullable<User> | Promise<Nullable<User>>;
-
-    abstract updateUser(input: UpdateUser): Nullable<User> | Promise<Nullable<User>>;
-
-    abstract deleteUser(input: number): Nullable<User> | Promise<Nullable<User>>;
+export class TaskQueryType {
+    getTask: GetTaskResultType;
+    getTasks: GetTasksResultType;
 }
 
 export class User {
     id: number;
-    email?: Nullable<string>;
-    username?: Nullable<string>;
-    passwordHash?: Nullable<string>;
+    email: string;
+    username: string;
+    passwordHash: string;
     firstname?: Nullable<string>;
     lastName?: Nullable<string>;
-    createdAt?: Nullable<DateTime>;
-    deleted?: Nullable<DateTime>;
+    createdAt: DateTime;
+}
+
+export class CreateUserResultType {
+    success: boolean;
+    task?: Nullable<User>;
+}
+
+export class GetUserResultType {
+    success: boolean;
+    user?: Nullable<User>;
+}
+
+export class UserMutationType {
+    createTask: CreateUserResultType;
+    createUser: CreateUserResultType;
+}
+
+export class UserQueryType {
+    getUser: GetUserResultType;
+    getUsers: GetUserResultType;
+}
+
+export abstract class IQuery {
+    abstract taskQueries(): TaskQueryType | Promise<TaskQueryType>;
+
+    abstract userQueries(): UserQueryType | Promise<UserQueryType>;
+}
+
+export abstract class IMutation {
+    abstract taskMutations(): TaskMutationType | Promise<TaskMutationType>;
+
+    abstract userMutations(): UserMutationType | Promise<UserMutationType>;
 }
 
 export type DateTime = any;

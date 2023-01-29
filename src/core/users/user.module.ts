@@ -3,7 +3,10 @@ import { forwardRef, Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { AuthService } from '../../auth/auth.service';
 import { AuthModule } from '../../auth/auth.module';
-import { UserResolver } from './user.resolver';
+import { UserQueryResolver } from './resolvers/user-query.resolver';
+import { UserService } from './services/user.service';
+import { UserMutationResolver } from './resolvers/user-mutation.resolver';
+import { UserRootResolver } from './resolvers/user-root.resolver';
 
 @Module({
   imports: [
@@ -14,7 +17,13 @@ import { UserResolver } from './user.resolver';
       signOptions: { expiresIn: '120s' }
     }), 
   ],
-  providers: [ AuthService, UserResolver],
+  providers: [ 
+    AuthService,
+    UserService,
+    UserQueryResolver,
+    UserMutationResolver,
+    UserRootResolver
+  ],
   exports: [],
   controllers: []
 })

@@ -11,7 +11,8 @@ import { UserModule } from './core/users/user.module';
     PrismaModule,
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
-      typePaths: ['./**/*.graphql'],
+      // typePaths: ['./**/*.graphql'],
+      autoSchemaFile: 'schema.gql',
       definitions: {
         path: join(process.cwd(), 'src/graphql.ts'),
         outputAs: 'class'

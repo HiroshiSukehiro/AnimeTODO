@@ -1,6 +1,10 @@
-import { ArrayNotEmpty, IsEmail, IsEnum, IsNotEmpty, IsOptional, IsString } from "class-validator";
+import { ArgsType } from "@nestjs/graphql";
+import { IsEmail, IsNotEmpty, IsOptional, IsString } from "class-validator";
 
-export class CreateUserDto  {
+
+
+@ArgsType()
+export class CreateUserInputType  {
     @IsString({message: 'Имя обязательно'})
     @IsNotEmpty({message: 'Имя обязательно'})
     username: string;
@@ -20,6 +24,4 @@ export class CreateUserDto  {
     @IsOptional()
     @IsString()
     lastName: string;
-
-
 } 
