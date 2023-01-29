@@ -1,9 +1,8 @@
-import { CreateTaskResultType } from "../models/results/create-task-result";
-import { GetTaskResultType } from "../models/results/get-task-result";
-import { Field, Mutation, ObjectType, Query, Resolver } from "@nestjs/graphql";
-import { GetTasksResultType } from "../models/results/get-tasks-result";
-import { UseInterceptors } from "@nestjs/common";
-import { CacheInterceptor, ReqType } from "../../../common/interceptors/cache-interceptor/cache-interceptor";
+import { UseInterceptors } from '@nestjs/common';
+import { Field, Mutation, ObjectType, Query, Resolver } from '@nestjs/graphql';
+
+import { CacheInterceptor, ReqType } from '../../../common/interceptors/cache-interceptor/cache-interceptor';
+import { CreateTaskResultType, GetTaskByStatusResultType, GetTaskResultType, GetTasksResultType } from '../models/results';
 
 @ObjectType()
 export class TaskMutationType {
@@ -24,6 +23,11 @@ export class TaskQueryType {
         description: 'Get task list',
     })
     getTasks: GetTasksResultType;
+
+    @Field(() => GetTaskByStatusResultType, {
+        description: 'Get a list of tasks by status',
+    })
+    getTasksByStatus: GetTaskByStatusResultType;
 }
 
 @Resolver()
