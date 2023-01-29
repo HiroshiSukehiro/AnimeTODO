@@ -20,19 +20,14 @@ export class UserQueryResolver extends UserRootResolver {
     ) {
         super()
     }
-        
-    
 
     @ResolveField(() => GetUserResultType)
-    async getUser(@Args() input: GetUserInputType): Promise<User | null> {
+    async getUser(@Args() input: GetUserInputType): Promise<GetUserResultType> {
         return await this.userService.getUser(input);
     }
 
     @ResolveField(() => GetUsersResultType)
-    async getUsers(
-        @Args('skip', { nullable: true, type: () => Int }) skip: number,
-        @Args('take', { nullable: true, type: () => Int }) take: number,
-    ): Promise<User[]> {
-        return await this.userService.getUsers(null)
+    async getUsers(): Promise<GetUsersResultType> {
+        return await this.userService.getUsers()
     }
 }

@@ -70,6 +70,11 @@ export class GetUserResultType {
     user?: Nullable<User>;
 }
 
+export class GetUsersResultType {
+    success: boolean;
+    users?: Nullable<User>;
+}
+
 export class UserMutationType {
     createTask: CreateUserResultType;
     createUser: CreateUserResultType;
@@ -77,7 +82,7 @@ export class UserMutationType {
 
 export class UserQueryType {
     getUser: GetUserResultType;
-    getUsers: GetUserResultType;
+    getUsers: GetUsersResultType;
 }
 
 export abstract class IQuery {

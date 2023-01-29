@@ -20,7 +20,7 @@ export class UserQueryType {
     })
     getUser: GetUserResultType;
 
-    @Field(() => GetUserResultType, {
+    @Field(() => GetUsersResultType, {
         description: 'Get user list',
     })
     getUsers: GetUsersResultType;

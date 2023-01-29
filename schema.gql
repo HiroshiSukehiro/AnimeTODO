@@ -88,6 +88,14 @@ type GetUserResultType {
   user: User
 }
 
+type GetUsersResultType {
+  """Request was successful"""
+  success: Boolean!
+
+  """User list"""
+  users: User
+}
+
 type UserMutationType {
   """Create user"""
   createTask: CreateUserResultType!
@@ -102,7 +110,7 @@ type UserQueryType {
   ): GetUserResultType!
 
   """Get user list"""
-  getUsers(skip: Int, take: Int): GetUserResultType!
+  getUsers: GetUsersResultType!
 }
 
 type Query {

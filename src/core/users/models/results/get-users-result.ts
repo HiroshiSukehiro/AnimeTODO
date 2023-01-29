@@ -8,5 +8,5 @@ export class GetUsersResultType extends BaseResultType {
         nullable: true,
         description: 'User list',
     })
-    translation: User[];
+    users: User[];
 }
