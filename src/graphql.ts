@@ -93,6 +93,11 @@ export class CreateUserResultType {
     user?: Nullable<User>;
 }
 
+export class DeleteUserResultType {
+    success: boolean;
+    user?: Nullable<User>;
+}
+
 export class GetUserResultType {
     success: boolean;
     user?: Nullable<UserWithoutPass>;
@@ -108,9 +113,17 @@ export class UpdateUserResultType {
     user?: Nullable<UserWithoutPass>;
 }
 
+export class LoginUserResultType {
+    success: boolean;
+    user?: Nullable<UserWithoutPass>;
+    token: string;
+}
+
 export class UserMutationType {
     createUser: CreateUserResultType;
     updateUser: UpdateUserResultType;
+    deleteUser: DeleteUserResultType;
+    login: LoginUserResultType;
 }
 
 export class UserQueryType {

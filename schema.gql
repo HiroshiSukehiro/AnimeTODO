@@ -75,7 +75,7 @@ type DeleteTaskResultType {
 
 type TaskMutationType {
   """Create task"""
-  createTask(authorId: Int!, name: String!, description: String, expires: DateTime!, isCompleted: Boolean!, status: TaskStatus!): CreateTaskResultType!
+  createTask(authorId: Int!, name: String!, description: String, expires: DateTime!, isCompleted: Boolean! = false, status: TaskStatus!): CreateTaskResultType!
 
   """Edit task"""
   editTask(id: Int!, authorId: Int, name: String, description: String, expires: DateTime, isCompleted: Boolean): EditTaskResultType!
@@ -119,7 +119,15 @@ type CreateUserResultType {
   """Request was successful"""
   success: Boolean!
 
-  """Task"""
+  """Create User"""
+  user: User
+}
+
+type DeleteUserResultType {
+  """Request was successful"""
+  success: Boolean!
+
+  """Delete User"""
   user: User
 }
 
@@ -143,8 +151,17 @@ type UpdateUserResultType {
   """Request was successful"""
   success: Boolean!
 
-  """Task"""
+  """Update User"""
   user: UserWithoutPass
+}
+
+type LoginUserResultType {
+  """Request was successful"""
+  success: Boolean!
+
+  """Login"""
+  user: UserWithoutPass
+  token: String!
 }
 
 type UserMutationType {
@@ -153,6 +170,10 @@ type UserMutationType {
 
   """Update user"""
   updateUser(username: String!, email: String!, password: String!, firstname: String!, lastName: String!): UpdateUserResultType!
+
+  """Delete user"""
+  deleteUser(email: String!, password: String!): DeleteUserResultType!
+  login(email: String!, password: String!): LoginUserResultType!
 }
 
 type UserQueryType {

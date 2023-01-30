@@ -3,10 +3,10 @@ import { Field, ObjectType } from "@nestjs/graphql";
 import { User } from "../../user";
 
 @ObjectType()
-export class CreateUserResultType extends BaseResultType {
+export class DeleteUserResultType extends BaseResultType {
     @Field(() => User, {
         nullable: true,
-        description: 'Create User',
+        description: 'Delete User',
     })
     user: User | null;
 }
