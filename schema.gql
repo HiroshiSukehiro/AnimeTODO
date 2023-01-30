@@ -106,11 +106,28 @@ type User {
   createdAt: DateTime!
 }
 
+type UserWithoutPass {
+  id: Int!
+  email: String!
+  username: String!
+  firstname: String
+  lastName: String
+  createdAt: DateTime!
+}
+
 type CreateUserResultType {
   """Request was successful"""
   success: Boolean!
 
-  """Task"""
+  """Create User"""
+  user: User
+}
+
+type DeleteUserResultType {
+  """Request was successful"""
+  success: Boolean!
+
+  """Delete User"""
   user: User
 }
 
@@ -119,7 +136,7 @@ type GetUserResultType {
   success: Boolean!
 
   """User"""
-  user: User
+  user: UserWithoutPass
 }
 
 type GetUsersResultType {
@@ -127,13 +144,36 @@ type GetUsersResultType {
   success: Boolean!
 
   """User list"""
-  users: [User!]
+  users: [UserWithoutPass!]
+}
+
+type UpdateUserResultType {
+  """Request was successful"""
+  success: Boolean!
+
+  """Update User"""
+  user: UserWithoutPass
+}
+
+type LoginUserResultType {
+  """Request was successful"""
+  success: Boolean!
+
+  """Login"""
+  user: UserWithoutPass
+  token: String!
 }
 
 type UserMutationType {
   """Create user"""
-  createTask: CreateUserResultType!
   createUser(username: String!, email: String!, password: String!, firstname: String!, lastName: String!): CreateUserResultType!
+
+  """Update user"""
+  updateUser(username: String!, email: String!, password: String!, firstname: String!, lastName: String!): UpdateUserResultType!
+
+  """Delete user"""
+  deleteUser(email: String!, password: String!): DeleteUserResultType!
+  login(email: String!, password: String!): LoginUserResultType!
 }
 
 type UserQueryType {
@@ -144,10 +184,7 @@ type UserQueryType {
   ): GetUserResultType!
 
   """Get user list"""
-  getUsers(
-    """User id"""
-    id: Int
-  ): GetUsersResultType!
+  getUsers: GetUsersResultType!
 }
 
 type Query {

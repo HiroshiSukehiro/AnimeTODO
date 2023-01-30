@@ -3,10 +3,13 @@ import { Field, ObjectType } from "@nestjs/graphql";
 import { UserWithoutPass } from "../../user";
 
 @ObjectType()
-export class GetUserResultType extends BaseResultType {
+export class LoginUserResultType extends BaseResultType {
     @Field(() => UserWithoutPass, {
         nullable: true,
-        description: 'User',
+        description: 'Login',
     })
     user: UserWithoutPass | null;
+
+    @Field(() => String)
+    token: String
 }
