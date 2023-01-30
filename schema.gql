@@ -75,7 +75,7 @@ type DeleteTaskResultType {
 
 type TaskMutationType {
   """Create task"""
-  createTask(authorId: Int!, name: String!, description: String, expires: DateTime!, isCompleted: Boolean!, status: TaskStatus!): CreateTaskResultType!
+  createTask(authorId: Int!, name: String!, description: String, expires: DateTime!, isCompleted: Boolean! = false, status: TaskStatus!): CreateTaskResultType!
 
   """Edit task"""
   editTask(id: Int!, authorId: Int, name: String, description: String, expires: DateTime, isCompleted: Boolean): EditTaskResultType!

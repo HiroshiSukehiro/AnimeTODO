@@ -1,6 +1,7 @@
-import { Task } from "../../task";
-import { Field, ObjectType } from "@nestjs/graphql";
-import { BaseResultType } from "../../../../common/models/base-result-type";
+import { Field, ObjectType } from '@nestjs/graphql';
+
+import { BaseResultType } from '../../../../common/models/base-result-type';
+import { Task } from '../../task';
 
 @ObjectType()
 export class GetTaskResultType extends BaseResultType {
