@@ -1,8 +1,5 @@
-import { ArgsType, Field, ObjectType } from "@nestjs/graphql";
+import { ArgsType, Field } from "@nestjs/graphql";
 import { IsEmail, IsNotEmpty, IsOptional, IsString } from "class-validator";
-
-
-
 @ArgsType()
 export class CreateUserInputType  {
     @IsString({message: 'Имя обязательно'})

@@ -1,10 +1,7 @@
-import { CreateUserResultType } from "../models/results/create-user-result";
-import { GetUserResultType } from "../models/results/get-user-result";
 import { Field, Mutation, ObjectType, Query, Resolver } from "@nestjs/graphql";
-import { GetUsersResultType } from "../models/results/get-users-result";
 import { CacheInterceptor, ReqType } from "../../../common/interceptors/cache-interceptor/cache-interceptor";
 import { UseInterceptors } from "@nestjs/common";
-import { UpdateUserResultType } from "../models/results/update-user-result";
+import { UpdateUserResultType, DeleteUserResultType, GetUsersResultType, GetUserResultType, CreateUserResultType } from "../models/results";
 
 @ObjectType()
 export class UserMutationType {
@@ -17,6 +14,11 @@ export class UserMutationType {
         description: 'Update user',
     })
     updateUser: UpdateUserResultType;
+
+    @Field(() => DeleteUserResultType, {
+        description: 'Delete user',
+    })
+    deleteUser: DeleteUserResultType;
 }
 
 @ObjectType()

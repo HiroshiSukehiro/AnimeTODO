@@ -1,23 +1,17 @@
 import { PrismaService } from "../../../database/prisma.service";
 import { forwardRef, Inject, Injectable } from "@nestjs/common";
-import { PasswordService } from "../../../auth/password.service";
-import { AuthService } from "../../../auth/auth.service";
-import { CreateUserInputType } from "../models/inputs/create-user-input";
-import { GetUserInputType } from "../models/inputs/get-user-input";
-import { GetUsersResultType } from "../models/results/get-users-result";
-import { GetUserResultType } from "../models/results/get-user-result";
-import { UpdateUserInputType } from "../models/inputs/update-user-input";
+import { PasswordService } from "../auth/password.service";
+import { CreateUserResultType, DeleteUserResultType, GetUserResultType, GetUsersResultType, LoginUserResultType, UpdateUserResultType } from "../models/results";
+import { UpdateUserInputType, GetUserInputType, CreateUserInputType, DeleteUserInputType, LoginUserInputType } from "../models/inputs";
 import bcrypt from "bcrypt";
-import { GetUsersInputType } from "../models/inputs/get-users-input";
-
-
+import { JwtService } from "@nestjs/jwt";
 
 @Injectable()
 export class UserService {
     constructor (
         private readonly prismaService: PrismaService,
         @Inject(forwardRef(() => PasswordService)) private passwordService: PasswordService,
-        private authService: AuthService
+        private jwtService: JwtService
     ) {}
 
     async getUser(input: GetUserInputType): Promise<GetUserResultType> {
@@ -42,7 +36,7 @@ export class UserService {
         };
     }
 
-    async createUser(input: CreateUserInputType) {
+    async createUser(input: CreateUserInputType): Promise<CreateUserResultType> {
         const encryptedPassword = await this.passwordService.hashPassword(
           input.password,
         );
@@ -61,7 +55,7 @@ export class UserService {
         return {user: user, success: true};
     }
 
-    async updateUser(input: UpdateUserInputType) {
+    async updateUser(input: UpdateUserInputType): Promise<UpdateUserResultType> {
         const { email, password, ...data } = input;
         const user = await this.prismaService.user.findFirst({
             where: {
@@ -87,6 +81,52 @@ export class UserService {
             return { user: updatedUser, success: true }
         } else {
             return { user: user, success: false }
+        }
+    }
+
+    async deleteUser(input: DeleteUserInputType): Promise<DeleteUserResultType> {
+        const { password, email } = input;
+
+        const user = await this.prismaService.user.findFirst({
+            where: {
+                email
+            }
+        })
+
+        if(!user) {return {user: null, success: false}}
+        const isValid = bcrypt.compareSync(password, user.passwordHash);
+
+        if (isValid) {
+            const deletedUser = await this.prismaService.user.delete({
+                where: {
+                    email
+                }
+            })
+                
+            return { user: deletedUser, success: true }
+        } else {
+            return { user: user, success: false }
+        }
+    }
+
+    async login(input: LoginUserInputType): Promise<LoginUserResultType> {
+        const { password, email } = input;
+
+        const user = await this.prismaService.user.findFirst({
+            where: {
+                email
+            }
+        });
+
+        if(!user) {return {user: null, success: false, token: ''}}
+        const isValid = bcrypt.compareSync(password, user.passwordHash);
+
+        if (isValid) {
+            const token = this.jwtService.sign({email})
+                
+            return { user: user, success: true, token: token }
+        } else {
+            return { user: null, success: false, token: '' }
         }
     }
 }
