@@ -51,8 +51,11 @@ export class UserService {
               createdAt: new Date()
             }
           })
+
+        const payload = { email: user.email };
+        const token = this.jwtService.sign(payload)
       
-        return {user: user, success: true};
+        return {user: user, success: true, token: token};
     }
 
     async updateUser(input: UpdateUserInputType): Promise<UpdateUserResultType> {

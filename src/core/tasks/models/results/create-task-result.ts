@@ -8,7 +8,7 @@ import { Task } from '../../task';
 export class CreateTaskResultType extends BaseResultType {
     @Field(() => Task, {
         nullable: true,
-        description: 'Task',
+        description: 'Create Task',
     })
     task: Task | null;
 }

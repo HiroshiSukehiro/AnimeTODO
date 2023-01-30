@@ -1,6 +1,6 @@
 // import { Task } from "@prisma/client";
 import { Args, ResolveField, Resolver } from '@nestjs/graphql';
-
+import { LoggerMiddleware } from '../../../common/midleware/logger.middleware';
 import { GetTaskByStatusInputType, GetTaskInputType } from '../models/inputs';
 import { GetTaskByStatusResultType, GetTaskResultType, GetTasksResultType } from '../models/results';
 import { TaskService } from '../services/task.service';
@@ -13,7 +13,7 @@ export class TaskQueryResolver {
         private readonly taskService: TaskService
     ) {}
 
-    @ResolveField(() => GetTaskResultType)
+    @ResolveField(() => GetTaskResultType, { middleware: [LoggerMiddleware]})
     async getTask(@Args() input: GetTaskInputType): Promise<GetTaskResultType> {
         return await this.taskService.getTask(input);
     }
@@ -26,7 +26,7 @@ export class TaskQueryResolver {
     }
 
     @ResolveField(() => GetTasksResultType)
-    async getTasks() {
+    async getTasks(): Promise<GetTasksResultType>{
         return await this.taskService.getTasks();
   
     }

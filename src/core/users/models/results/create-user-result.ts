@@ -9,4 +9,7 @@ export class CreateUserResultType extends BaseResultType {
         description: 'Create User',
     })
     user: User | null;
+
+    @Field(() => String)
+    token: String;
 }

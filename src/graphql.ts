@@ -96,6 +96,7 @@ export class UserWithoutPass {
 export class CreateUserResultType {
     success: boolean;
     user?: Nullable<User>;
+    token: string;
 }
 
 export class DeleteUserResultType {

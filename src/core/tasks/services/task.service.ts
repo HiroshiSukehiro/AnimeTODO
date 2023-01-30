@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 
 import { PrismaService } from '../../../database/prisma.service';
 import { CreateTaskInputType, GetTaskByStatusInputType, GetTaskInputType, GetTasksInputType } from '../models/inputs';
-import { CreateTaskResultType, DeleteTaskResultType, EditTaskResultType, GetTaskByStatusResultType, GetTaskResultType } from '../models/results';
+import { CreateTaskResultType, DeleteTaskResultType, EditTaskResultType, GetTaskByStatusResultType, GetTaskResultType, GetTasksResultType } from '../models/results';
 import {ValidationTaskService} from "./validation-task.service"
 
 
@@ -27,9 +27,9 @@ export class TaskService extends ValidationTaskService {
         return this.validationTaskSuccess(task);
     }
     
-    async getTasks() {
+    async getTasks(): Promise<GetTasksResultType> {
         const tasks = await this.prismaService.task.findMany();
-        return this.validationTaskSuccess(tasks);
+        return {tasks, success: true};
     }
     
     async createTask(input: CreateTaskInputType): Promise<CreateTaskResultType> {

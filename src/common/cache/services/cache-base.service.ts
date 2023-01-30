@@ -1,41 +1,39 @@
 import { QueryCacheType } from "../../types/query-type";
 import { InjectRedis, Redis } from "@nestjs-modules/ioredis";
 import { Injectable } from "@nestjs/common";
-import { PrismaService } from "../../../database/prisma.service";
+import { CacheOptions } from "../../types/cache-options-type";
 
 @Injectable()
 export class CacheBaseService {
     constructor(
-        @InjectRedis() protected readonly redis: Redis,
-        protected readonly prismaService: PrismaService
+        @InjectRedis() protected readonly redis: Redis
     ) {}
 
-    private async checkExistsOne(queryType: QueryCacheType, id: number,) {
-        const exists = await this.redis.exists(`${queryType.query}:${id}`);
+    protected async checkExistsOne(queryType: QueryCacheType, id: number, opts: CacheOptions) {
+        const exists = await this.redis.exists(`${queryType.query}:${id}:${opts.type}`);
         return !!exists;
     }
 
-    private async setOne() {
-
-    }
-
-    private async setIfNotExists(queryType: QueryCacheType, id: number, data: string) {
-        const value = await this.redis.setnx(`${queryType.query}:${id}`, data);
+    protected async setCacheJson(queryType: QueryCacheType, id: number, data: any) {
+        const strData = JSON.stringify(data);
+        const value = await this.redis.set(`${queryType.query}:${id}:data`, strData, 'EX', 1800);
         return value;
     }
 
-    private async incCounter(queryType: QueryCacheType, id: number) {
-        const key = `${queryType.query}:${id}:count`;
+    protected async incCounter(queryType: QueryCacheType, id: number) {
+        const keyCount = `${queryType.query}:${id}:count`;
+        const exists = !!await this.redis.exists(keyCount);
 
-        await this.redis.setnx(key, 0);
-        const value = await this.redis.incr(key);
-        return value;
-    }
+        if (!exists) {
+            await this.redis.set(keyCount, 1, 'EX', 900)
+            return 1;
+        } 
 
-    async resolver(queryType: QueryCacheType, id: number) {
-        const exists = await this.checkExistsOne(queryType, id);
-        console.log('REDIS EXISTS', exists);
+        await this.redis.expire(keyCount, 900);
+        const value = await this.redis.incr(keyCount);
         
-        this.incCounter(queryType, id);
+        return value;
     }
+
+
 }
