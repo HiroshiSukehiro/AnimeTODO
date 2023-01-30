@@ -29,7 +29,7 @@ type CreateTaskResultType {
   """Request was successful"""
   success: Boolean!
 
-  """Task"""
+  """Create Task"""
   task: Task
 }
 
@@ -37,7 +37,7 @@ type GetTaskResultType {
   """Request was successful"""
   success: Boolean!
 
-  """Task"""
+  """getTaskById"""
   task: Task
 }
 
