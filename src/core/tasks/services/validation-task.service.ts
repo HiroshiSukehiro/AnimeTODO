@@ -10,9 +10,8 @@ export class ValidationTaskService {
             };
         }
         return{
-                success: true,
-                task,
-            
+            success: true,
+            task,
         }
 
     }
