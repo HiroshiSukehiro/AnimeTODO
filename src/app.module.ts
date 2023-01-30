@@ -8,6 +8,7 @@ import { TaskModule } from './core/tasks/task.module';
 import { UserModule } from './core/users/user.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { CacheModule } from './common/cache/cache.module';
+import { AuthModule } from './core/auth/auth.module';
 
 @Module({
   imports: [
@@ -32,7 +33,8 @@ import { CacheModule } from './common/cache/cache.module';
     }),
     CacheModule,
     TaskModule,
-    UserModule
+    UserModule,
+    AuthModule
   ],
   controllers: [],
   providers: []

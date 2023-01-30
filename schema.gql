@@ -96,6 +96,14 @@ type TaskQueryType {
   getTaskByStatus(status: TaskStatus!): GetTaskByStatusResultType!
 }
 
+type LoginResultType {
+  """Request was successful"""
+  success: Boolean!
+
+  """Token"""
+  token: String
+}
+
 type User {
   id: Int!
   email: String!
@@ -155,13 +163,14 @@ type UpdateUserResultType {
   user: UserWithoutPass
 }
 
-type LoginUserResultType {
-  """Request was successful"""
-  success: Boolean!
-
+type LoginMutationType {
   """Login"""
-  user: UserWithoutPass
-  token: String!
+  login(email: String!, password: String!): LoginResultType!
+}
+
+type LoginQueryType {
+  """Get user by token"""
+  getUserByToken: GetUserResultType!
 }
 
 type UserMutationType {
@@ -173,7 +182,6 @@ type UserMutationType {
 
   """Delete user"""
   deleteUser(email: String!, password: String!): DeleteUserResultType!
-  login(email: String!, password: String!): LoginUserResultType!
 }
 
 type UserQueryType {
@@ -193,6 +201,9 @@ type Query {
 
   """User queries"""
   userQueries: UserQueryType!
+
+  """Login queries"""
+  loginQueries: LoginQueryType!
 }
 
 type Mutation {
@@ -201,4 +212,7 @@ type Mutation {
 
   """User mutations"""
   userMutations: UserMutationType!
+
+  """login mutations"""
+  loginMutations: LoginMutationType!
 }

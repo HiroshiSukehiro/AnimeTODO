@@ -1,8 +1,8 @@
 import { PrismaService } from "../../../database/prisma.service";
 import { forwardRef, Inject, Injectable } from "@nestjs/common";
-import { PasswordService } from "../auth/password.service";
-import { CreateUserResultType, DeleteUserResultType, GetUserResultType, GetUsersResultType, LoginUserResultType, UpdateUserResultType } from "../models/results";
-import { UpdateUserInputType, GetUserInputType, CreateUserInputType, DeleteUserInputType, LoginUserInputType } from "../models/inputs";
+import { PasswordService } from "../../auth/password.service";
+import { CreateUserResultType, DeleteUserResultType, GetUserResultType, GetUsersResultType, UpdateUserResultType } from "../models/results";
+import { UpdateUserInputType, GetUserInputType, CreateUserInputType, DeleteUserInputType } from "../models/inputs";
 import bcrypt from "bcrypt";
 import { JwtService } from "@nestjs/jwt";
 
@@ -106,27 +106,6 @@ export class UserService {
             return { user: deletedUser, success: true }
         } else {
             return { user: user, success: false }
-        }
-    }
-
-    async login(input: LoginUserInputType): Promise<LoginUserResultType> {
-        const { password, email } = input;
-
-        const user = await this.prismaService.user.findFirst({
-            where: {
-                email
-            }
-        });
-
-        if(!user) {return {user: null, success: false, token: ''}}
-        const isValid = bcrypt.compareSync(password, user.passwordHash);
-
-        if (isValid) {
-            const token = this.jwtService.sign({email})
-                
-            return { user: user, success: true, token: token }
-        } else {
-            return { user: null, success: false, token: '' }
         }
     }
 }

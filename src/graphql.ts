@@ -69,6 +69,11 @@ export class TaskQueryType {
     getTaskByStatus: GetTaskByStatusResultType;
 }
 
+export class LoginResultType {
+    success: boolean;
+    token?: Nullable<string>;
+}
+
 export class User {
     id: number;
     email: string;
@@ -113,17 +118,18 @@ export class UpdateUserResultType {
     user?: Nullable<UserWithoutPass>;
 }
 
-export class LoginUserResultType {
-    success: boolean;
-    user?: Nullable<UserWithoutPass>;
-    token: string;
+export class LoginMutationType {
+    login: LoginResultType;
+}
+
+export class LoginQueryType {
+    getUserByToken: GetUserResultType;
 }
 
 export class UserMutationType {
     createUser: CreateUserResultType;
     updateUser: UpdateUserResultType;
     deleteUser: DeleteUserResultType;
-    login: LoginUserResultType;
 }
 
 export class UserQueryType {
@@ -135,12 +141,16 @@ export abstract class IQuery {
     abstract taskQueries(): TaskQueryType | Promise<TaskQueryType>;
 
     abstract userQueries(): UserQueryType | Promise<UserQueryType>;
+
+    abstract loginQueries(): LoginQueryType | Promise<LoginQueryType>;
 }
 
 export abstract class IMutation {
     abstract taskMutations(): TaskMutationType | Promise<TaskMutationType>;
 
     abstract userMutations(): UserMutationType | Promise<UserMutationType>;
+
+    abstract loginMutations(): LoginMutationType | Promise<LoginMutationType>;
 }
 
 export type DateTime = any;

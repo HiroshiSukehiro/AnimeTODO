@@ -1,8 +1,8 @@
 import { PrismaModule } from '../../database/prisma.module';
 import { forwardRef, Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
-import { AuthService } from './auth/auth.service';
-import { AuthModule } from './auth/auth.module';
+import { AuthService } from '../auth/services/auth.service';
+import { AuthModule } from '../auth/auth.module';
 import { UserQueryResolver } from './resolvers/user-query.resolver';
 import { UserService } from './services/user.service';
 import { UserMutationResolver } from './resolvers/user-mutation.resolver';
