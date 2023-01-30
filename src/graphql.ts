@@ -31,13 +31,12 @@ export class CreateTaskResultType {
     task?: Nullable<Task>;
 }
 
-
 export class GetTaskResultType {
     success: boolean;
-    tasks?: Nullable<Task>;
+    task?: Nullable<Task>;
 }
 
-export class CreateTaskResultType {
+export class GetTasksResultType {
     success: boolean;
     tasks?: Nullable<Task[]>;
 }
@@ -54,7 +53,6 @@ export class EditTaskResultType {
 
 export class DeleteTaskResultType {
     success: boolean;
-
     task?: Nullable<Task>;
 }
 
@@ -108,7 +106,6 @@ export class GetUsersResultType {
 export class UpdateUserResultType {
     success: boolean;
     user?: Nullable<UserWithoutPass>;
-    users?: Nullable<User[]>;
 }
 
 export class UserMutationType {
