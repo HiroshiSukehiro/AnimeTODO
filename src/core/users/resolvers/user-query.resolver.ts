@@ -1,4 +1,3 @@
-// import { Task } from "@prisma/client";
 import { Args, ResolveField, Resolver } from "@nestjs/graphql";
 import { UserQueryType, UserRootResolver } from "./user-root.resolver";
 import { UserService } from "../services/user.service";
