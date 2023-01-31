@@ -1,5 +1,5 @@
 import { Args, ResolveField, Resolver } from '@nestjs/graphql';
-import { LoggerMiddleware } from '../../../common/midleware/logger.middleware';
+import { CheckAuthMiddleware, LoggerMiddleware } from '../../../common/midleware';
 import { GetTaskByStatusInputType, GetTaskInputType, GetTasksInputType } from '../models/inputs';
 import { GetTasksByStatusResultType, GetTaskResultType, GetTasksResultType } from '../models/results';
 import { TaskService } from '../services/task.service';
@@ -12,19 +12,19 @@ export class TaskQueryResolver {
         private readonly taskService: TaskService
     ) { }
 
-    @ResolveField(() => GetTaskResultType, { middleware: [LoggerMiddleware] })
+    @ResolveField(() => GetTaskResultType, { middleware: [LoggerMiddleware, CheckAuthMiddleware] })
     async getTask(@Args() input: GetTaskInputType): Promise<GetTaskResultType> {
         return await this.taskService.getTask(input);
     }
 
     //Promise<GetTaskByStatusResultType>
-    @ResolveField(() => GetTasksByStatusResultType, { middleware: [LoggerMiddleware] })
+    @ResolveField(() => GetTasksByStatusResultType, { middleware: [LoggerMiddleware, CheckAuthMiddleware] })
     async getTaskByStatus(@Args() input: GetTaskByStatusInputType) {
         return await this.taskService.getTaskByStatus(input);
 
     }
 
-    @ResolveField(() => GetTasksResultType, { middleware: [LoggerMiddleware] })
+    @ResolveField(() => GetTasksResultType, { middleware: [LoggerMiddleware, CheckAuthMiddleware] })
     async getTasks(
         @Args() input: GetTasksInputType,
     ): Promise<GetTasksResultType> {

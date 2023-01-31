@@ -4,8 +4,7 @@ import { LoginQueryType, LoginRootResolver } from "./login-root.resolver";
 import { AuthService } from "../services/auth.service";
 import { GraphqlAuthUser } from "../services/GraphqlAuthUser";
 import { GraphqlUserInterceptor } from "../services/GraphqlIntenceptor";
-import { Req, UseGuards, UseInterceptors } from "@nestjs/common";
-import { JwtAuthGuard } from "../guards/jwt-auth.guard";
+import { UseInterceptors } from "@nestjs/common";
 
 @Resolver(LoginQueryType)
 export class LoginQueryResolver extends LoginRootResolver {
@@ -15,7 +14,6 @@ export class LoginQueryResolver extends LoginRootResolver {
         super();
     }
 
-    @UseGuards(JwtAuthGuard)
     @ResolveField(() => GetUserResultType)
     @UseInterceptors(GraphqlUserInterceptor)
     async getUserByToken(@GraphqlAuthUser() req: any): Promise<GetUserResultType> {

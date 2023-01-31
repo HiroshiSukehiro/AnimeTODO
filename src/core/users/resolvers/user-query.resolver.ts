@@ -2,7 +2,7 @@ import { Args, ResolveField, Resolver } from "@nestjs/graphql";
 import { UserQueryType, UserRootResolver } from "./user-root.resolver";
 import { UserService } from "../services/user.service";
 import { GetUserInputType } from "../models/inputs";
-import { LoggerMiddleware } from '../../../common/midleware/logger.middleware';
+import { CheckAuthMiddleware, LoggerMiddleware } from '../../../common/midleware';
 import { GetUsersResultType, GetUserResultType } from "../models/results";
 
 @Resolver(UserQueryType)
@@ -13,12 +13,12 @@ export class UserQueryResolver extends UserRootResolver {
         super()
     }
 
-    @ResolveField(() => GetUserResultType, { middleware: [LoggerMiddleware] })
+    @ResolveField(() => GetUserResultType, { middleware: [LoggerMiddleware, CheckAuthMiddleware] })
     async getUser(@Args() input: GetUserInputType): Promise<GetUserResultType> {
         return await this.userService.getUser(input);
     }
 
-    @ResolveField(() => GetUsersResultType, { middleware: [LoggerMiddleware] })
+    @ResolveField(() => GetUsersResultType, { middleware: [LoggerMiddleware, CheckAuthMiddleware] })
     async getUsers(): Promise<GetUsersResultType> {
         return await this.userService.getUsers()
     }
