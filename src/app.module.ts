@@ -9,6 +9,7 @@ import { UserModule } from './core/users/user.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { CacheModule } from './common/cache/cache.module';
 import { AuthModule } from './core/auth/auth.module';
+import { AuthMiddleware } from './common/midleware/auth.middleware';
 @Module({
   imports: [ 
     PrismaModule,
@@ -20,9 +21,9 @@ import { AuthModule } from './core/auth/auth.module';
         path: join(process.cwd(), 'src/graphql.ts'),
         outputAs: 'class'
       },
-    //   buildSchemaOptions: {
-    //     fieldMiddleware: [],
-    //   },
+      buildSchemaOptions: {
+        fieldMiddleware: [AuthMiddleware],
+      },
     }),
     RedisModule.forRootAsync({
       inject: [ConfigService],

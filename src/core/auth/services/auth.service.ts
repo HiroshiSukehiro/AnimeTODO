@@ -1,12 +1,11 @@
-import { forwardRef, Inject, Injectable } from '@nestjs/common';
+import { forwardRef, Inject, Injectable} from '@nestjs/common';
 import { PasswordService } from '../password.service';
 import { PrismaService } from "../../../database/prisma.service";
-import { User } from '../../users/user';
 import { JwtService } from '@nestjs/jwt';
 import { LoginResultType } from '../models/results/login-token-result';
 import { LoginTokenInputType } from '../models/inputs/login-token-input';
 import { GetUserResultType } from '../../users/models/results/get-user-result';
-import { Request } from 'express';
+import jwtDecode from 'jwt-decode';
 
 @Injectable()
 export class AuthService {
@@ -14,7 +13,7 @@ export class AuthService {
     private prismaService: PrismaService, 
     @Inject(forwardRef(() => PasswordService))
     private passwordService: PasswordService,
-    private jwtService: JwtService
+    private jwtService: JwtService,
   ) {}
   
   async validateUser(email: string, password: string) {
@@ -43,12 +42,14 @@ export class AuthService {
     }
   }
 
-  async getUserByToken(req: any): Promise<GetUserResultType> {
-    if (!req) {return {user: null, success: false}}
-    let email = req.email;
-    const user = await this.prismaService.user.findFirst({
-      where: {email}
-    });
+  async getUserByToken(token: string): Promise<GetUserResultType> {
+    
+    if (!token) {return {user: null, success: false}}
+      const decoded: any = jwtDecode(token)
+      let email = decoded.email;
+      const user = await this.prismaService.user.findUnique({
+        where: {email}
+      });
     if(!user) {return {user: null, success: false}}
 
     const {passwordHash, ...data} = user;
