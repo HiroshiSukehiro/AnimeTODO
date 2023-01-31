@@ -1,4 +1,3 @@
-import { LoggingModule } from './core/logging/logging.module';
 import { join } from 'path';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { PrismaModule } from './database/prisma.module';
@@ -10,11 +9,8 @@ import { UserModule } from './core/users/user.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { CacheModule } from './common/cache/cache.module';
 import { AuthModule } from './core/auth/auth.module';
-import { AuthMiddleware } from './common/midleware/auth.middleware';
-
 @Module({
-  imports: [
-        LoggingModule, 
+  imports: [ 
     PrismaModule,
     ConfigModule.forRoot({isGlobal: true}),
     GraphQLModule.forRoot<ApolloDriverConfig>({
@@ -24,9 +20,9 @@ import { AuthMiddleware } from './common/midleware/auth.middleware';
         path: join(process.cwd(), 'src/graphql.ts'),
         outputAs: 'class'
       },
-      buildSchemaOptions: {
-        fieldMiddleware: [AuthMiddleware],
-      },
+    //   buildSchemaOptions: {
+    //     fieldMiddleware: [],
+    //   },
     }),
     RedisModule.forRootAsync({
       inject: [ConfigService],

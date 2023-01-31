@@ -49,7 +49,7 @@ type GetTasksResultType {
   tasks: [Task!]
 }
 
-type GetTaskByStatusResultType {
+type GetTasksByStatusResultType {
   """Request was successful"""
   success: Boolean!
 
@@ -78,7 +78,7 @@ type TaskMutationType {
   createTask(authorId: Int!, name: String!, description: String, expires: DateTime!, isCompleted: Boolean! = false, status: TaskStatus!): CreateTaskResultType!
 
   """Edit task"""
-  editTask(id: Int!, authorId: Int, name: String, description: String, expires: DateTime, isCompleted: Boolean): EditTaskResultType!
+  editTask(skip: Int, take: Int, id: Int, authorId: Int, name: String, description: String, status: TaskStatus, expires: DateTime, isCompleted: Boolean): EditTaskResultType!
 
   """Delete task"""
   deleteTask(id: Int!): DeleteTaskResultType!
@@ -89,11 +89,11 @@ type TaskQueryType {
   getTask(id: Int!): GetTaskResultType!
 
   """Get task list"""
-  getTasks: GetTasksResultType!
+  getTasks(skip: Int, take: Int, id: Int, authorId: Int, name: String, description: String, status: TaskStatus, expires: DateTime, isCompleted: Boolean): GetTasksResultType!
 
   """Get a list of tasks by status"""
-  getTasksByStatus: GetTaskByStatusResultType!
-  getTaskByStatus(status: TaskStatus!): GetTaskByStatusResultType!
+  getTasksByStatus: GetTasksByStatusResultType!
+  getTaskByStatus(status: TaskStatus!): GetTasksByStatusResultType!
 }
 
 type LoginResultType {

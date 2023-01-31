@@ -6,7 +6,7 @@ import {
     CreateTaskResultType,
     DeleteTaskResultType,
     EditTaskResultType,
-    GetTaskByStatusResultType,
+    GetTasksByStatusResultType,
     GetTaskResultType,
     GetTasksResultType,
 } from '../models/results';
@@ -41,10 +41,10 @@ export class TaskQueryType {
     })
     getTasks: GetTasksResultType;
 
-    @Field(() => GetTaskByStatusResultType, {
+    @Field(() => GetTasksByStatusResultType, {
         description: 'Get a list of tasks by status',
     })
-    getTasksByStatus: GetTaskByStatusResultType;
+    getTasksByStatus: GetTasksByStatusResultType;
 }
 
 @Resolver()
