@@ -1,40 +1,30 @@
+import { PaginationInputType } from '../../../../common/models/pagination/pagination-input';
 import { ArgsType, Field, Int } from '@nestjs/graphql';
 import { IsBoolean, IsDate, IsNumber, IsOptional, IsString } from 'class-validator';
+import { TaskStatus } from '@prisma/client';
 
 @ArgsType()
-export class GetTasksInputType  {
+export class GetTasksInputType extends PaginationInputType {
     
-    @IsNumber()
-    @Field(() => Int)
-    id: number
+    @Field(() => Int, { nullable: true })
+    id?: number
 
-
-    @IsNumber()
-    @IsOptional()
-    @Field(() => Int, {nullable: true})
+    @Field(() => Int, { nullable: true })
     authorId?: number
 
-
-    @IsOptional()
-    @IsString()
-    @Field( {nullable: true})
+    @Field(() => String, { nullable: true })
     name?: string
 
-
-    @IsOptional()
-    @Field(()=> String, {nullable: true})
+    @Field(()=> String, { nullable: true })
     description?: string | null 
 
+    @Field(() => TaskStatus, { nullable: true })
+    status?: TaskStatus
 
-    @IsOptional()
-    @IsDate()
-    @Field(() => Date, {nullable: true})
+    @Field(() => Date, { nullable: true })
     expires?: Date
 
-
-    @IsOptional()
-    @IsBoolean()
-    @Field(() => Boolean, {nullable: true})
+    @Field(() => Boolean, { nullable: true })
     isCompleted?: boolean
 } 
 

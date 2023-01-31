@@ -1,8 +1,9 @@
+import { PaginationInputType } from '../../../common/models/pagination/pagination-input';
 import { Injectable } from '@nestjs/common';
 
 import { PrismaService } from '../../../database/prisma.service';
 import { CreateTaskInputType, GetTaskByStatusInputType, GetTaskInputType, GetTasksInputType } from '../models/inputs';
-import { CreateTaskResultType, DeleteTaskResultType, EditTaskResultType, GetTaskByStatusResultType, GetTaskResultType, GetTasksResultType } from '../models/results';
+import { CreateTaskResultType, DeleteTaskResultType, EditTaskResultType, GetTasksByStatusResultType, GetTaskResultType, GetTasksResultType } from '../models/results';
 import {ValidationTaskService} from "./validation-task.service"
 
 
@@ -19,7 +20,7 @@ export class TaskService extends ValidationTaskService {
         return this.validationTaskSuccess(task);
     }
 
-    async getTaskByStatus(input: GetTaskByStatusInputType): Promise<GetTaskByStatusResultType> {
+    async getTaskByStatus(input: GetTaskByStatusInputType): Promise<GetTasksByStatusResultType> {
         const task = await this.prismaService.task.findMany({
             where: {
                 ...input
@@ -27,8 +28,19 @@ export class TaskService extends ValidationTaskService {
         return this.validationTaskSuccess(task);
     }
     
-    async getTasks(): Promise<GetTasksResultType> {
-        const tasks = await this.prismaService.task.findMany();
+    async getTasks(input: GetTasksInputType): Promise<GetTasksResultType> {
+        const where = {...input};
+        delete where.skip;
+        delete where.take;
+
+        const skip = input.skip || 0;
+        const take = input.skip || 10;
+
+        const tasks = await this.prismaService.task.findMany({
+            where,
+            skip,
+            take
+        });
         return {tasks, success: true};
     }
     

@@ -3,7 +3,7 @@ import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from "@nes
 import { GqlContextType, GqlExecutionContext } from "@nestjs/graphql";
 import { Reflector } from "@nestjs/core";
 import { SetMetadata } from '@nestjs/common';
-import { QueryCacheType } from "../../types/query-type";
+import { QueryCacheType } from "../../types/query-types";
 
 
 export const ReqType = (query: QueryCacheType) => SetMetadata('query', query);
@@ -21,12 +21,11 @@ export class CacheInterceptor implements NestInterceptor {
       const gqlContext = GqlExecutionContext.create(context);
       const ctx = gqlContext.getContext();
 
-      const id = ctx.req.body.variables.id;
-
       const query = this.reflector.get<QueryCacheType>('query', context.getHandler());
+      const id = ctx.req.body.variables.id;
       
       if (Number.isInteger(id)) {
-        this.cacheDBService.resolver(query, id)
+        this.cacheDBService.queryResolver(query, id)
       }
     }
     return next.handle();

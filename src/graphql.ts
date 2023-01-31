@@ -41,7 +41,7 @@ export class GetTasksResultType {
     tasks?: Nullable<Task[]>;
 }
 
-export class GetTaskByStatusResultType {
+export class GetTasksByStatusResultType {
     success: boolean;
     task?: Nullable<Task[]>;
 }
@@ -65,8 +65,8 @@ export class TaskMutationType {
 export class TaskQueryType {
     getTask: GetTaskResultType;
     getTasks: GetTasksResultType;
-    getTasksByStatus: GetTaskByStatusResultType;
-    getTaskByStatus: GetTaskByStatusResultType;
+    getTasksByStatus: GetTasksByStatusResultType;
+    getTaskByStatus: GetTasksByStatusResultType;
 }
 
 export class User {

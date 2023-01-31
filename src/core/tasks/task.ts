@@ -1,12 +1,6 @@
 import { Field, Int, ObjectType, registerEnumType } from '@nestjs/graphql';
 import { TaskStatus } from '@prisma/client';
 
-// export enum TaskStatus {
-//     PENDING= 'PENDING',
-//     IN_WORK= 'IN_WORK',
-//     COMPLETED= 'COMPLETED'
-// }
-
 registerEnumType(TaskStatus, {
     name: 'TaskStatus'
 })
