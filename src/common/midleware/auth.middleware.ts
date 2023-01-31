@@ -13,9 +13,7 @@ export const AuthMiddleware: FieldMiddleware = async (
             let email = decoded.email
             if (!!email) {
                 let user = await prismaService.user.findUnique({where: {email}});
-                console.log(user)
                 if (!!user) {
-                    console.log(user);
                     ctx.context.req.user = user;
                 }
                 if (!ctx.context.req.user) next();
