@@ -22,8 +22,13 @@ type StatisticMutationType {
 
 type StatisticQueryType {
   """Get user by Statistic"""
-  getStatistic: GetStatisticResultType!
+  getStatistic(skip: Int, take: Int, id: Int, userId: Int, message: String, args: String, sourse: String, createdAt: DateTime): GetStatisticResultType!
 }
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
 
 type Task {
   id: Int!
@@ -36,11 +41,6 @@ type Task {
   createdAt: DateTime!
   updatedAt: DateTime
 }
-
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
 
 enum TaskStatus {
   PENDING
