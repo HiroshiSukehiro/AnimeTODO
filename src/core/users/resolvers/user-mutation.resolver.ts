@@ -2,6 +2,7 @@ import { Args, ResolveField, Resolver } from "@nestjs/graphql";
 import { CreateUserInputType, DeleteUserInputType, UpdateUserInputType } from "../models/inputs";
 import { UserMutationType, UserRootResolver } from "../resolvers/user-root.resolver";
 import { UpdateUserResultType, CreateUserResultType, DeleteUserResultType } from "../models/results";
+import { LoggerMiddleware } from '../../../common/midleware/logger.middleware';
 import { UserService } from "../services/user.service";
 
 @Resolver(UserMutationType)
@@ -12,17 +13,17 @@ export class UserMutationResolver extends UserRootResolver {
         super();
     }
 
-    @ResolveField(() => CreateUserResultType)
+    @ResolveField(() => CreateUserResultType, { middleware: [LoggerMiddleware] })
     async createUser(@Args() input: CreateUserInputType): Promise<any> {
         return await this.userService.createUser(input)
     }
 
-    @ResolveField(() => UpdateUserResultType)
+    @ResolveField(() => UpdateUserResultType, { middleware: [LoggerMiddleware] })
     async updateUser(@Args() input: UpdateUserInputType): Promise<UpdateUserResultType> {
         return await this.userService.updateUser(input);
     }
 
-    @ResolveField(() => DeleteUserResultType)
+    @ResolveField(() => DeleteUserResultType, { middleware: [LoggerMiddleware] })
     async deleteUser(@Args() input: DeleteUserInputType): Promise<DeleteUserResultType> {
         return await this.userService.deleteUser(input);
     }
