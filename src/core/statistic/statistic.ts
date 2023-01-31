@@ -1,9 +1,4 @@
-import { Field, Int, ObjectType, registerEnumType } from '@nestjs/graphql';
-import { TaskStatus } from '@prisma/client';
-
-registerEnumType(TaskStatus, {
-    name: 'TaskStatus'
-})
+import { Field, Int, ObjectType, } from '@nestjs/graphql';
 
 @ObjectType()
 export class Statistic {
@@ -13,8 +8,8 @@ export class Statistic {
     @Field(() => Int)
     userId: number
 
-    @Field()
-    message: string
+    @Field(() => String, { nullable: true })
+    message?: string
 
     @Field(() => String, { nullable: true })
     args?: string | null
@@ -24,5 +19,16 @@ export class Statistic {
 
     @Field(() => Date, { defaultValue: new Date() })
     createdAt: Date
+
+}
+
+@ObjectType()
+export class StatisticUser {
+  
+    @Field(() => Int)
+    count: number
+
+    @Field(() => Int)
+    userId: number
 
 }

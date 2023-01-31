@@ -2,6 +2,29 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type StatisticUser {
+  count: Int!
+  userId: Int!
+}
+
+type GetStatisticResultType {
+  """Request was successful"""
+  success: Boolean!
+
+  """getStatisticByUser"""
+  statistic: [StatisticUser!]
+}
+
+type StatisticMutationType {
+  """Delete Statistic"""
+  deleteStatistic: GetStatisticResultType!
+}
+
+type StatisticQueryType {
+  """Get user by Statistic"""
+  getStatistic: GetStatisticResultType!
+}
+
 type Task {
   id: Int!
   authorId: Int!
@@ -197,6 +220,9 @@ type UserQueryType {
 }
 
 type Query {
+  """Statistic queries"""
+  StatisticQueries: StatisticQueryType!
+
   """Task queries"""
   taskQueries: TaskQueryType!
 
@@ -208,6 +234,9 @@ type Query {
 }
 
 type Mutation {
+  """Statistic mutations"""
+  StatisticMutations: StatisticMutationType!
+
   """Task mutations"""
   taskMutations: TaskMutationType!
 

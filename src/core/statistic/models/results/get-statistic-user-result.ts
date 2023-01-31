@@ -2,13 +2,13 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 
 import { BaseResultType } from '../../../../common/models/base-result-type';
-import { Statistic } from '../../statistic';
+import { StatisticUser } from '../../statistic';
 
 @ObjectType()
 export class GetStatisticResultType extends BaseResultType {
-    @Field(() => [Statistic], {
+    @Field(() => [StatisticUser], {
         nullable: true,
-        description: 'getStatisticByLog',
+        description: 'getStatisticByUser',
     })
-    statistic: Statistic[] | null;
+    statistic: StatisticUser[] | null;
 }

@@ -1,5 +1,5 @@
 
-type queryName = 'task' | 'user';
+type queryName = 'task' | 'user' | "statistic";
 
 export type QueryCacheType = {
     query: queryName;

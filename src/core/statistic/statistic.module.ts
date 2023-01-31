@@ -1,14 +1,20 @@
-import { LoggerService } from './services/statistic.service';
+import { StatisticService } from './services/statistic.service';
+import { StatisticQueryResolver } from "./resolvers/statistic-query.resolver"
+import { StatisticRootResolver } from "./resolvers/statistic-root.resolver"
 /*
 https://docs.nestjs.com/modules
 */
 
 import { Module } from '@nestjs/common';
+import { PrismaModule } from '../../database/prisma.module';
 
 @Module({
-    imports: [],
+    imports: [PrismaModule],
     controllers: [],
     providers: [
-        LoggerService,],
+        StatisticService,
+        StatisticRootResolver,
+        StatisticQueryResolver
+    ],
 })
-export class LoggerModule { }
+export class StatisticModule { }

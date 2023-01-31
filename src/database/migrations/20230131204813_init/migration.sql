@@ -36,7 +36,7 @@ CREATE TABLE "Logs" (
     "userId" INTEGER NOT NULL,
     "message" TEXT NOT NULL,
     "args" TEXT,
-    "result" TEXT,
+    "sourse" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "Logs_pkey" PRIMARY KEY ("id")

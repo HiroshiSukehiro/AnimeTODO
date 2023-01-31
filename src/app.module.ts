@@ -1,4 +1,4 @@
-import { LoggerModule } from './core/statistic/statistic.module';
+import { StatisticModule } from './core/statistic/statistic.module';
 import { join } from 'path';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { PrismaModule } from './database/prisma.module';
@@ -13,7 +13,7 @@ import { AuthModule } from './core/auth/auth.module';
 import { AuthMiddleware } from './common/midleware/auth.middleware';
 @Module({
   imports: [
-    LoggerModule,
+    StatisticModule,
     PrismaModule,
     ConfigModule.forRoot({ isGlobal: true }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
@@ -39,7 +39,7 @@ import { AuthMiddleware } from './common/midleware/auth.middleware';
     CacheModule,
     TaskModule,
     UserModule,
-    AuthModule
+    AuthModule,
   ],
   controllers: [],
   providers: []
