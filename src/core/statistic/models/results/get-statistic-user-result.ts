@@ -11,4 +11,7 @@ export class GetStatisticResultType extends BaseResultType {
         description: 'getStatisticByUser',
     })
     statistic: StatisticUser[] | null;
+
+    @Field(() => Number)
+    statisticCount: number;
 }
