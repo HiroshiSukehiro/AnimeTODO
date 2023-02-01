@@ -1,5 +1,5 @@
 import { Field, Mutation, ObjectType, Query, Resolver } from "@nestjs/graphql";
-import { GetUserResultType, } from "../../users/models/results";
+import { GetUserResultType, GetUserWithLogsResultType, } from "../../users/models/results";
 import { LoginResultType } from "../models/results/login-token-result";
 
 @ObjectType()

@@ -1,7 +1,7 @@
 import { PrismaService } from "../../../database/prisma.service";
 import { forwardRef, Inject, Injectable } from "@nestjs/common";
 import { PasswordService } from "../../auth/password.service";
-import { CreateUserResultType, DeleteUserResultType, GetUserResultType, GetUsersResultType, UpdateUserResultType } from "../models/results";
+import { CreateUserResultType, DeleteUserResultType, GetUserResultType, GetUsersResultType, GetUserWithLogsResultType, UpdateUserResultType } from "../models/results";
 import { UpdateUserInputType, GetUserInputType, CreateUserInputType, DeleteUserInputType } from "../models/inputs";
 import bcrypt from "bcrypt";
 import { JwtService } from "@nestjs/jwt";
@@ -111,4 +111,14 @@ export class UserService {
             return { user: user, success: false }
         }
     }
+
+    async getUserInfo(input: GetUserInputType): Promise<GetUserWithLogsResultType> {
+        const user = await this.prismaService.user.findUnique({
+            where: { id: input.id },
+            include: {tasks: true, logs: true}
+        })
+        if (!user) {return {user: null, success: false}}
+        const {passwordHash, ...data} = user;
+        return {user: data, success: true}
+      }
 }

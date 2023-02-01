@@ -14,6 +14,15 @@ export enum TaskStatus {
     COMPLETED = "COMPLETED"
 }
 
+export class Statistic {
+    id: number;
+    userId: number;
+    message?: Nullable<string>;
+    args?: Nullable<string>;
+    sourse?: Nullable<string>;
+    createdAt: DateTime;
+}
+
 export class StatisticUser {
     count: number;
     userId: number;
@@ -119,6 +128,17 @@ export class UserWithoutPass {
     createdAt: DateTime;
 }
 
+export class UserWithLogs {
+    id: number;
+    email: string;
+    username: string;
+    firstname?: Nullable<string>;
+    lastName?: Nullable<string>;
+    createdAt: DateTime;
+    tasks?: Nullable<Task[]>;
+    logs?: Nullable<Statistic[]>;
+}
+
 export class CreateUserResultType {
     success: boolean;
     errors?: Nullable<string[]>;
@@ -136,6 +156,12 @@ export class GetUserResultType {
     success: boolean;
     errors?: Nullable<string[]>;
     user?: Nullable<UserWithoutPass>;
+}
+
+export class GetUserWithLogsResultType {
+    success: boolean;
+    errors?: Nullable<string[]>;
+    user?: Nullable<UserWithLogs>;
 }
 
 export class GetUsersResultType {
@@ -167,6 +193,7 @@ export class UserMutationType {
 export class UserQueryType {
     getUser: GetUserResultType;
     getUsers: GetUsersResultType;
+    getUserInfo: GetUserWithLogsResultType;
 }
 
 export abstract class IQuery {
