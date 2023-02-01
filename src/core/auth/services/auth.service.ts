@@ -4,7 +4,7 @@ import { PrismaService } from "../../../database/prisma.service";
 import { JwtService } from '@nestjs/jwt';
 import { LoginResultType } from '../models/results/login-token-result';
 import { LoginTokenInputType } from '../models/inputs/login-token-input';
-import { GetUserResultType } from '../../users/models/results/get-user-result';
+import { GetUserResultType, GetUserWithLogsResultType } from '../../users/models/results/get-user-result';
 import jwtDecode from 'jwt-decode';
 
 @Injectable()
@@ -47,11 +47,12 @@ export class AuthService {
 
     if (!token) { return { user: null, success: false } }
     const decoded: any = jwtDecode(token)
-    let email = decoded.email;
+    let email = decoded.string;
     const user = await this.prismaService.user.findUnique({
       where: { email }
     });
     if (!user) { return { user: null, success: false } }
+
 
     const { passwordHash, ...data } = user;
 

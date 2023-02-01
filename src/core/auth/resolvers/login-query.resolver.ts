@@ -1,5 +1,5 @@
 import { ResolveField, Resolver } from "@nestjs/graphql";
-import { GetUserResultType } from "../../users/models/results";
+import { GetUserResultType, GetUserWithLogsResultType } from "../../users/models/results";
 import { LoginQueryType, LoginRootResolver } from "./login-root.resolver";
 import { AuthService } from "../services/auth.service";
 import { GraphqlAuthUser } from "../services/GraphqlAuthUser";
