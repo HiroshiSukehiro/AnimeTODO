@@ -18,7 +18,7 @@ import { AuthMiddleware } from './common/midleware/auth.middleware';
     ConfigModule.forRoot({ isGlobal: true }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
-      autoSchemaFile: 'schema.gql',
+      autoSchemaFile: 'src/schema.gql',
       definitions: {
         path: join(process.cwd(), 'src/graphql.ts'),
         outputAs: 'class'

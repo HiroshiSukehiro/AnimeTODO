@@ -21,7 +21,7 @@ export class StatisticUser {
 
 export class GetStatisticResultType {
     success: boolean;
-    errors?: Nullable<string[]>;
+    errors: string[];
     statistic?: Nullable<StatisticUser[]>;
 }
 
@@ -47,37 +47,37 @@ export class Task {
 
 export class CreateTaskResultType {
     success: boolean;
-    errors?: Nullable<string[]>;
+    errors: string[];
     task?: Nullable<Task>;
 }
 
 export class GetTaskResultType {
     success: boolean;
-    errors?: Nullable<string[]>;
+    errors: string[];
     task?: Nullable<Task>;
 }
 
 export class GetTasksResultType {
     success: boolean;
-    errors?: Nullable<string[]>;
+    errors: string[];
     tasks?: Nullable<Task[]>;
 }
 
 export class GetTasksByStatusResultType {
     success: boolean;
-    errors?: Nullable<string[]>;
+    errors: string[];
     task?: Nullable<Task[]>;
 }
 
 export class EditTaskResultType {
     success: boolean;
-    errors?: Nullable<string[]>;
+    errors: string[];
     task?: Nullable<Task>;
 }
 
 export class DeleteTaskResultType {
     success: boolean;
-    errors?: Nullable<string[]>;
+    errors: string[];
     task?: Nullable<Task>;
 }
 
@@ -96,7 +96,7 @@ export class TaskQueryType {
 
 export class LoginResultType {
     success: boolean;
-    errors?: Nullable<string[]>;
+    errors: string[];
     token?: Nullable<string>;
 }
 
@@ -143,20 +143,20 @@ export class UserWithLogs {
 
 export class CreateUserResultType {
     success: boolean;
-    errors?: Nullable<string[]>;
+    errors: string[];
     user?: Nullable<User>;
     token: string;
 }
 
 export class DeleteUserResultType {
     success: boolean;
-    errors?: Nullable<string[]>;
+    errors: string[];
     user?: Nullable<User>;
 }
 
 export class GetUserResultType {
     success: boolean;
-    errors?: Nullable<string[]>;
+    errors: string[];
     user?: Nullable<UserWithoutPass>;
 }
 
@@ -168,13 +168,13 @@ export class GetUserWithLogsResultType {
 
 export class GetUsersResultType {
     success: boolean;
-    errors?: Nullable<string[]>;
+    errors: string[];
     users?: Nullable<UserWithoutPass[]>;
 }
 
 export class UpdateUserResultType {
     success: boolean;
-    errors?: Nullable<string[]>;
+    errors: string[];
     user?: Nullable<UserWithoutPass>;
 }
 

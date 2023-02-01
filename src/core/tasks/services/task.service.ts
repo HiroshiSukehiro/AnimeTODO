@@ -63,23 +63,25 @@ export class TaskService extends ValidationTaskService {
         return this.validationTaskSuccess(task);
     }
 
-    async editTask(input: EditTaskInputType, cacheIn: Function): Promise<EditTaskResultType> {
-
-        const task = await this.prismaService.task.update({
-            where: { id: input.id },
-            data: input
-        })
-
-        cacheIn(task);
-
-        return this.validationTaskSuccess(task);
+    async editTask(input: EditTaskInputType, cacheIn: Function, req: Request & { user: { id: number } }): Promise<EditTaskResultType> {
+        if (input.id === req.user.id) {
+            const task = await this.prismaService.task.update({
+                where: { id: input.id },
+                data: input
+            })
+            cacheIn(task);
+            return this.validationTaskSuccess(task);
+        }
+        return this.validationTaskSuccess(false);
     }
 
-    async deleteTask(input: DeleteTaskInputType, cacheIn: Function): Promise<DeleteTaskResultType> {
-        const task = await this.prismaService.task.delete({ where: { id: input.id } })
+    async deleteTask(input: DeleteTaskInputType, cacheIn: Function, req: Request & { user: { id: number } }): Promise<DeleteTaskResultType> {
+        if (input.id === req.user.id) {
+            const task = await this.prismaService.task.delete({ where: { id: input.id } })
+            cacheIn(task)
+            return this.validationTaskSuccess(task);
+        }
+        return this.validationTaskSuccess(false);
 
-        cacheIn(task)
-
-        return this.validationTaskSuccess(task);
     }
 }

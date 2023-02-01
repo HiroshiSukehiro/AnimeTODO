@@ -14,10 +14,20 @@ export class StatisticService {
         const where = { ...input };
         delete where.skip;
         delete where.take;
+        delete where.dateStart;
+        delete where.dateEnd;
 
         const skip = input.skip || 0;
         const take = input.skip || 10;
+
+        const dateStart = new Date().toISOString()
         const statistic = await this.prismaService.logs.groupBy({
+            where: {
+                AND: [
+                    { createdAt: { gte: new Date(Date.now() - 1000 * 60 * 60 * 24 * 7) } },
+                    { createdAt: { lte: new Date(Date.now()) } }
+                ]
+            },
             by: ['userId'],
             _count: {
                 userId: true,
@@ -30,7 +40,7 @@ export class StatisticService {
             skip,
             take
         })
-        const result = statistic.map((el) => { return { userId: el.userId, count: el._count.userId } })
+        const result = statistic.map((el) => ({ userId: el.userId, count: el._count.userId }) )
         return { statistic: result, success: true }
     }
 }

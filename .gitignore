@@ -9,6 +9,11 @@
 # env
 /.env
 
+#waste
+/src/graphql.ts
+/src/schema.gql
+
+
 # Logs
 logs
 *.log
