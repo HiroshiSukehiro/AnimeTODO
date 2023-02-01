@@ -10,7 +10,7 @@ export const LoggerMiddleware: FieldMiddleware = async (
     const args = JSON.stringify(ctx.args);
     const prismaService = new PrismaService();
     const value = await next();
-    await prismaService.logs.create({
+    const data = await prismaService.logs.create({
       data: {
         message,
         args,

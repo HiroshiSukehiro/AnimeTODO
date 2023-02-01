@@ -9,4 +9,4 @@ export class GraphqlUserInterceptor implements NestInterceptor {
   
         return next.handle();
     }
-  }
+}

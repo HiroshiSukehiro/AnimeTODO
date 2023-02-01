@@ -4,13 +4,10 @@ import { IsDate, IsOptional, IsString, IsBoolean, Length, IsNumber, IsEnum } fro
 
 
 @ArgsType()
-export class CreateTaskInputType  {
-   
-    @IsNumber()
-    @Field(() => Int)
-    authorId: number
+export class CreateTaskInputType {
 
-    @Length(5, 35,{message: 'Не верная длина поля NAME (5-35 символов)'})
+
+    @Length(5, 35, { message: 'Не верная длина поля NAME (5-35 символов)' })
     @Field()
     name: string
 
@@ -19,15 +16,15 @@ export class CreateTaskInputType  {
     @Field({ nullable: true })
     description?: string
 
-    @IsDate({message: 'Не верная форма даты, укажите дату!'})
+    @IsDate({ message: 'Не верная форма даты, укажите дату!' })
     @Field(() => Date)
     expires: Date
 
     @IsBoolean()
-    @Field(() => Boolean, {defaultValue: false})
+    @Field(() => Boolean, { defaultValue: false })
     isCompleted: boolean
 
-    @IsEnum(TaskStatus, {message: "Не верный статус задачи"})
+    @IsEnum(TaskStatus, { message: "Не верный статус задачи" })
     @Field(() => TaskStatus)
     status: TaskStatus
-} 
+}
