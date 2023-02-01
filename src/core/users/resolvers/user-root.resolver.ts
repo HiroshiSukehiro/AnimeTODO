@@ -1,5 +1,5 @@
 import { Field, Mutation, ObjectType, Query, Resolver } from "@nestjs/graphql";
-import { UpdateUserResultType, DeleteUserResultType, GetUsersResultType, GetUserResultType, CreateUserResultType } from "../models/results";
+import { UpdateUserResultType, DeleteUserResultType, GetUsersResultType, GetUserResultType, CreateUserResultType, GetUserWithLogsResultType } from "../models/results";
 import { CacheQuery } from "../../../common/decorators/cache-query.decorator";
 import { CacheMutation } from "../../../common/decorators/cache-mutation.decorator";
 
@@ -32,6 +32,11 @@ export class UserQueryType {
         description: 'Get user list',
     })
     getUsers: GetUsersResultType;
+
+    @Field(() => GetUserWithLogsResultType, {
+        description: 'Get user Info',
+    })
+    getUserInfo: GetUserWithLogsResultType;
 }
 
 @Resolver()

@@ -100,6 +100,15 @@ export class LoginResultType {
     token?: Nullable<string>;
 }
 
+export class Log {
+    id: number;
+    userId: number;
+    message?: Nullable<string>;
+    args?: Nullable<string>;
+    sourse?: Nullable<string>;
+    createdAt: DateTime;
+}
+
 export class User {
     id: number;
     email: string;
@@ -119,6 +128,19 @@ export class UserWithoutPass {
     createdAt: DateTime;
 }
 
+export class UserWithLogs {
+    id: number;
+    email: string;
+    statisticRang?: Nullable<number>;
+    statisticScore?: Nullable<number>;
+    username: string;
+    firstname?: Nullable<string>;
+    lastName?: Nullable<string>;
+    createdAt: DateTime;
+    tasks?: Nullable<Task[]>;
+    logs?: Nullable<Log[]>;
+}
+
 export class CreateUserResultType {
     success: boolean;
     errors: string[];
@@ -136,6 +158,12 @@ export class GetUserResultType {
     success: boolean;
     errors: string[];
     user?: Nullable<UserWithoutPass>;
+}
+
+export class GetUserWithLogsResultType {
+    success: boolean;
+    errors?: Nullable<string[]>;
+    user?: Nullable<UserWithLogs>;
 }
 
 export class GetUsersResultType {
@@ -167,6 +195,7 @@ export class UserMutationType {
 export class UserQueryType {
     getUser: GetUserResultType;
     getUsers: GetUsersResultType;
+    getUserInfo: GetUserWithLogsResultType;
 }
 
 export abstract class IQuery {

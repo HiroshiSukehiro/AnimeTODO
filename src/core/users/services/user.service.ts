@@ -1,33 +1,33 @@
 import { PrismaService } from "../../../database/prisma.service";
 import { forwardRef, Inject, Injectable } from "@nestjs/common";
 import { PasswordService } from "../../auth/password.service";
-import { CreateUserResultType, DeleteUserResultType, GetUserResultType, GetUsersResultType, UpdateUserResultType } from "../models/results";
+import { CreateUserResultType, DeleteUserResultType, GetUserResultType, GetUsersResultType, GetUserWithLogsResultType, UpdateUserResultType } from "../models/results";
 import { UpdateUserInputType, GetUserInputType, CreateUserInputType, DeleteUserInputType } from "../models/inputs";
 import bcrypt from "bcrypt";
 import { JwtService } from "@nestjs/jwt";
 
 @Injectable()
 export class UserService {
-    constructor (
+    constructor(
         private readonly prismaService: PrismaService,
         @Inject(forwardRef(() => PasswordService)) private passwordService: PasswordService,
         private jwtService: JwtService
-    ) {}
+    ) { }
 
     async getUser(input: GetUserInputType): Promise<GetUserResultType> {
         const user = await this.prismaService.user.findUnique({
             where: { id: input.id }
         })
-        if (!user) {return {user: null, success: false}}
-        const {passwordHash, ...data} = user;
-        return {user: data, success: true}
+        if (!user) { return { user: null, success: false } }
+        const { passwordHash, ...data } = user;
+        return { user: data, success: true }
     }
 
     async getUsers(): Promise<GetUsersResultType> {
         const userList = await this.prismaService.user.findMany();
         let userArr = [];
-        for(let i = 0; i < userList.length; i++) {
-            const {passwordHash, ...data} = userList[i];
+        for (let i = 0; i < userList.length; i++) {
+            const { passwordHash, ...data } = userList[i];
             userArr.push(data);
         }
         return {
@@ -38,24 +38,24 @@ export class UserService {
 
     async createUser(input: CreateUserInputType): Promise<CreateUserResultType> {
         const encryptedPassword = await this.passwordService.hashPassword(
-          input.password,
+            input.password,
         );
-            
+
         const user = await this.prismaService.user.create({
             data: {
-              email: input.email,
-              username: input.username,
-              passwordHash: encryptedPassword,
-              firstname: input.firstname,
-              lastName: input.lastName,
-              createdAt: new Date()
+                email: input.email,
+                username: input.username,
+                passwordHash: encryptedPassword,
+                firstname: input.firstname,
+                lastName: input.lastName,
+                createdAt: new Date()
             }
-          })
+        })
 
         const payload = { email: user.email };
         const token = this.jwtService.sign(payload)
-      
-        return {user: user, success: true, token: token};
+
+        return { user: user, success: true, token: token };
     }
 
     async updateUser(input: UpdateUserInputType): Promise<UpdateUserResultType> {
@@ -66,7 +66,7 @@ export class UserService {
             }
         })
 
-        if(!user) {return {user: null, success: false}}
+        if (!user) { return { user: null, success: false } }
         const isValid = bcrypt.compareSync(password, user.passwordHash);
 
         if (isValid) {
@@ -96,7 +96,7 @@ export class UserService {
             }
         })
 
-        if(!user) {return {user: null, success: false}}
+        if (!user) { return { user: null, success: false } }
         const isValid = bcrypt.compareSync(password, user.passwordHash);
 
         if (isValid) {
@@ -105,10 +105,33 @@ export class UserService {
                     email
                 }
             })
-                
+
             return { user: deletedUser, success: true }
         } else {
             return { user: user, success: false }
         }
+    }
+
+    async getUserInfo(input: GetUserInputType): Promise<GetUserWithLogsResultType> {
+        const statisticUser = await this.prismaService.logs.groupBy({
+            by: ['userId'],
+            _count: {
+                userId: true,
+            },
+            orderBy: {
+                _count: {
+                    userId: 'desc'
+                }
+            },
+        })
+        const [raiting] = statisticUser.map((el, index) => el.userId === input.id && { statisticRang: index + 1, statisticScore: el._count.userId })
+        console.log(raiting)
+        const user = await this.prismaService.user.findUnique({
+            where: { id: input.id },
+            include: { tasks: true, logs: true }
+        })
+        if (!user) { return { user: null, success: false } }
+        const { passwordHash, ...data } = user;
+        return { user: { ...data, ...raiting }, success: true }
     }
 }

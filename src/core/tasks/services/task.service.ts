@@ -4,7 +4,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../../database/prisma.service';
 import { CreateTaskInputType, GetTaskByStatusInputType, GetTaskInputType, GetTasksInputType } from '../models/inputs';
 import { CreateTaskResultType, DeleteTaskResultType, EditTaskResultType, GetTasksByStatusResultType, GetTaskResultType, GetTasksResultType } from '../models/results';
-import {ValidationTaskService} from "./validation-task.service"
+import { ValidationTaskService } from "./validation-task.service"
 import { DeleteTaskInputType } from '../models/inputs/delete-task-input';
 import { EditTaskInputType } from '../models/inputs/edit-task-input';
 
@@ -17,18 +17,18 @@ export class TaskService extends ValidationTaskService {
         super();
     }
 
-    async getTask(input: GetTaskInputType, cacheGet: Function): Promise<GetTaskResultType>  {
+    async getTask(input: GetTaskInputType, cacheGet: Function): Promise<GetTaskResultType> {
         const cache = await cacheGet(input.id);
-        
-        if(cache) {
+
+        if (cache) {
             cache.createdAt = new Date(cache.createdAt)
             cache.updatedAt = new Date(cache.updatedAt)
             cache.expires = new Date(cache.expires)
 
             return this.validationTaskSuccess(cache);
         }
-        const task = await this.prismaService.task.findUnique({where: {id: input.id}});
-        
+        const task = await this.prismaService.task.findUnique({ where: { id: input.id } });
+
         return this.validationTaskSuccess(task);
     }
 
@@ -36,12 +36,13 @@ export class TaskService extends ValidationTaskService {
         const task = await this.prismaService.task.findMany({
             where: {
                 ...input
-        }})
+            }
+        })
         return this.validationTaskSuccess(task);
     }
-    
+
     async getTasks(input: GetTasksInputType): Promise<GetTasksResultType> {
-        const where = {...input};
+        const where = { ...input };
         delete where.skip;
         delete where.take;
 
@@ -53,34 +54,34 @@ export class TaskService extends ValidationTaskService {
             skip,
             take
         });
-        return {tasks, success: true};
-    }
-    
-    async createTask(input: CreateTaskInputType): Promise<CreateTaskResultType> {
-        const task = await this.prismaService.task.create({data: {
-        ...input
-     }})
-     
-     return this.validationTaskSuccess(task);
+        return { tasks, success: true };
     }
 
-    async editTask(input: EditTaskInputType, cacheIn: Function): Promise<EditTaskResultType>{
-
-        const task = await this.prismaService.task.update({ 
-            where: { id: input.id }, 
-            data: input 
-        })
-        
-        cacheIn(task);
-
+    async createTask(input: CreateTaskInputType, req: Request & { user: { id: number } }): Promise<CreateTaskResultType> {
+        const data = { ...input, authorId: req.user.id ?? 0 };
+        const task = await this.prismaService.task.create({ data })
         return this.validationTaskSuccess(task);
     }
 
-    async deleteTask(input: DeleteTaskInputType, cacheIn: Function):  Promise<DeleteTaskResultType>{
-        const task = await this.prismaService.task.delete({where: {id: input.id}})
+    async editTask(input: EditTaskInputType, cacheIn: Function, req: Request & { user: { id: number } }): Promise<EditTaskResultType> {
+        if (input.id === req.user.id) {
+            const task = await this.prismaService.task.update({
+                where: { id: input.id },
+                data: input
+            })
+            cacheIn(task);
+            return this.validationTaskSuccess(task);
+        }
+        return this.validationTaskSuccess(false);
+    }
 
-        cacheIn(task)
+    async deleteTask(input: DeleteTaskInputType, cacheIn: Function, req: Request & { user: { id: number } }): Promise<DeleteTaskResultType> {
+        if (input.id === req.user.id) {
+            const task = await this.prismaService.task.delete({ where: { id: input.id } })
+            cacheIn(task)
+            return this.validationTaskSuccess(task);
+        }
+        return this.validationTaskSuccess(false);
 
-        return this.validationTaskSuccess(task);
     }
 }
