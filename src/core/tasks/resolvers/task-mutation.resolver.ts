@@ -23,7 +23,7 @@ export class TaskMutationResolver extends TaskRootResolver {
     }
 
     @ResolveField(() => CreateTaskResultType, { middleware: [LoggerMiddleware, CheckAuthMiddleware] })
-    @UseInterceptors(RequestInterceptor)
+    // @UseInterceptors(RequestInterceptor)
     async createTask(@Args() input: CreateTaskInputType, @RequestDecorator() req: Request & { user: { id: number } }): Promise<CreateTaskResultType> {
         return await this.taskService.createTask(input, req);
     }

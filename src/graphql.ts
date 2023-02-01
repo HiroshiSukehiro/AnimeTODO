@@ -14,15 +14,6 @@ export enum TaskStatus {
     COMPLETED = "COMPLETED"
 }
 
-export class Statistic {
-    id: number;
-    userId: number;
-    message?: Nullable<string>;
-    args?: Nullable<string>;
-    sourse?: Nullable<string>;
-    createdAt: DateTime;
-}
-
 export class StatisticUser {
     count: number;
     userId: number;
@@ -109,6 +100,15 @@ export class LoginResultType {
     token?: Nullable<string>;
 }
 
+export class Log {
+    id: number;
+    userId: number;
+    message?: Nullable<string>;
+    args?: Nullable<string>;
+    sourse?: Nullable<string>;
+    createdAt: DateTime;
+}
+
 export class User {
     id: number;
     email: string;
@@ -131,12 +131,14 @@ export class UserWithoutPass {
 export class UserWithLogs {
     id: number;
     email: string;
+    statisticRang?: Nullable<number>;
+    statisticScore?: Nullable<number>;
     username: string;
     firstname?: Nullable<string>;
     lastName?: Nullable<string>;
     createdAt: DateTime;
     tasks?: Nullable<Task[]>;
-    logs?: Nullable<Statistic[]>;
+    logs?: Nullable<Log[]>;
 }
 
 export class CreateUserResultType {
