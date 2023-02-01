@@ -38,6 +38,8 @@ export class CacheBaseService {
     //increase counter and prolongs life time of cache counter
     protected async incCounter(queryType: CacheType, id: number) {
         const keyCount = `${queryType.type}:${id}:count`;
+        const keyData = `${queryType.type}:${id}:data`;
+        
         const exists = !!await this.redis.exists(keyCount);
 
         if (!exists) {
@@ -46,6 +48,7 @@ export class CacheBaseService {
         } 
 
         await this.redis.expire(keyCount, 1800);
+        await this.redis.expire(keyData, 1800);
         const value = await this.redis.incr(keyCount);
         
         return value;
