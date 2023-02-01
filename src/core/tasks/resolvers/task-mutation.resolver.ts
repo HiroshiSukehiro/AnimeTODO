@@ -29,13 +29,13 @@ export class TaskMutationResolver extends TaskRootResolver {
     }
 
     @ResolveField(() => EditTaskResultType, { middleware: [LoggerMiddleware, CheckAuthMiddleware] })
-    async editTask(@Args() input: EditTaskInputType, @CacheIn('update') cacheIn: Function): Promise<EditTaskResultType> {
-        return await this.taskService.editTask(input, cacheIn);
+    async editTask(@Args() input: EditTaskInputType, @CacheIn('update') cacheIn: Function, @RequestDecorator() req: Request & { user: { id: number } }): Promise<EditTaskResultType> {
+        return await this.taskService.editTask(input, cacheIn, req);
     }
 
     @ResolveField(() => DeleteTaskResultType, { middleware: [LoggerMiddleware, CheckAuthMiddleware] })
-    async deleteTask(@Args() id: DeleteTaskInputType, @CacheIn('delete') cacheIn: Function): Promise<DeleteTaskResultType> {
-        return await this.taskService.deleteTask(id, cacheIn);
+    async deleteTask(@Args() id: DeleteTaskInputType, @CacheIn('delete') cacheIn: Function, @RequestDecorator() req: Request & { user: { id: number } }): Promise<DeleteTaskResultType> {
+        return await this.taskService.deleteTask(id, cacheIn, req);
     }
 
 }
