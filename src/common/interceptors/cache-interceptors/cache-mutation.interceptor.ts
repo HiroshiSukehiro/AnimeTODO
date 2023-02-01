@@ -13,12 +13,12 @@ export class CacheMutationInterceptor implements NestInterceptor {
 
   intercept(context: ExecutionContext, next: CallHandler): any {    
     if (context.getType<GqlContextType>() === 'graphql') {;
-        const req = context.getArgByIndex(2).req;
+      const req = context.getArgByIndex(2).req;
 
-        req.fill = (param: OperationType) => (data: any) => {
-            const query = this.reflector.get<CacheType>('options', context.getHandler());
-            this.cacheDBService.mutationResolver(query, param, data);
-        };
+      req.fill = (param: OperationType) => (data: any) => {
+        const query = this.reflector.get<CacheType>('options', context.getHandler());
+        this.cacheDBService.mutationResolver(query, param, data);
+      };
         
         
     }

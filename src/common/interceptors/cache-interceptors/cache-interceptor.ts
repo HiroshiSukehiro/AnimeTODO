@@ -13,13 +13,17 @@ export class CacheInterceptor implements NestInterceptor {
 
   intercept(context: ExecutionContext, next: CallHandler): any {    
     if (context.getType<GqlContextType>() === 'graphql') {
+
+      const type = this.reflector.get<CacheType>('options', context.getHandler());
+      const req = context.getArgByIndex(2).req;
+      req.getIfExists = async (id: number) => {
+        return await this.cacheDBService.receiver(type, id)
+      }
       
       const gqlContext = GqlExecutionContext.create(context);
       const ctx = gqlContext.getContext();
-
-      const type = this.reflector.get<CacheType>('options', context.getHandler());
       const id = ctx.req.body.variables.id;
-      
+
       if (Number.isInteger(id)) {
         this.cacheDBService.queryResolver(type, id)
       }

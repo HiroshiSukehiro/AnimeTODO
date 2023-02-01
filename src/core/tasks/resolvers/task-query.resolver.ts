@@ -1,3 +1,4 @@
+import { CacheGet } from '../../../common/decorators/cache-get.decorator';
 import { Args, ResolveField, Resolver } from '@nestjs/graphql';
 import { CheckAuthMiddleware, LoggerMiddleware } from '../../../common/midleware';
 import { GetTaskByStatusInputType, GetTaskInputType, GetTasksInputType } from '../models/inputs';
@@ -13,8 +14,8 @@ export class TaskQueryResolver {
     ) { }
 
     @ResolveField(() => GetTaskResultType, { middleware: [LoggerMiddleware, CheckAuthMiddleware] })
-    async getTask(@Args() input: GetTaskInputType): Promise<GetTaskResultType> {
-        return await this.taskService.getTask(input);
+    async getTask(@Args() input: GetTaskInputType, @CacheGet() cacheGet: Function): Promise<GetTaskResultType> {
+        return await this.taskService.getTask(input, cacheGet);
     }
 
     //Promise<GetTaskByStatusResultType>

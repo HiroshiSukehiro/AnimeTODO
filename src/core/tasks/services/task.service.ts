@@ -17,8 +17,18 @@ export class TaskService extends ValidationTaskService {
         super();
     }
 
-    async getTask(input: GetTaskInputType): Promise<GetTaskResultType>  {
+    async getTask(input: GetTaskInputType, cacheGet: Function): Promise<GetTaskResultType>  {
+        const cache = await cacheGet(input.id);
+        
+        if(cache) {
+            cache.createdAt = new Date(cache.createdAt)
+            cache.updatedAt = new Date(cache.updatedAt)
+            cache.expires = new Date(cache.expires)
+
+            return this.validationTaskSuccess(cache);
+        }
         const task = await this.prismaService.task.findUnique({where: {id: input.id}});
+        
         return this.validationTaskSuccess(task);
     }
 

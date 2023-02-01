@@ -1,4 +1,4 @@
-import { CacheMutationInterceptor } from "../interceptors/cache-interceptor/cache-mutation.interceptor";
+import { CacheMutationInterceptor } from "../interceptors/cache-interceptors/cache-mutation.interceptor";
 import { applyDecorators, SetMetadata, UseInterceptors } from "@nestjs/common";
 import { CacheType } from "../types/cache-types";
 
