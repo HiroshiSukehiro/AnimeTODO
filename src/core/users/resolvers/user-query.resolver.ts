@@ -4,6 +4,7 @@ import { UserService } from "../services/user.service";
 import { GetUserInputType } from "../models/inputs";
 import { CheckAuthMiddleware, LoggerMiddleware } from '../../../common/midleware';
 import { GetUsersResultType, GetUserResultType, GetUserWithLogsResultType } from "../models/results";
+import { CacheGet } from "../../../common/decorators/cache-get.decorator";
 
 @Resolver(UserQueryType)
 export class UserQueryResolver extends UserRootResolver {
@@ -14,8 +15,8 @@ export class UserQueryResolver extends UserRootResolver {
     }
 
     @ResolveField(() => GetUserResultType, { middleware: [LoggerMiddleware, CheckAuthMiddleware] })
-    async getUser(@Args() input: GetUserInputType): Promise<GetUserResultType> {
-        return await this.userService.getUser(input)
+    async getUser(@Args() input: GetUserInputType, @CacheGet() cacheGet: Function): Promise<GetUserResultType> {
+        return await this.userService.getUser(input, cacheGet)
     }
 
     @ResolveField(() => GetUsersResultType, { middleware: [LoggerMiddleware, CheckAuthMiddleware] })

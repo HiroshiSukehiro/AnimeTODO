@@ -14,7 +14,13 @@ export class UserService {
         private jwtService: JwtService
     ) { }
 
-    async getUser(input: GetUserInputType): Promise<GetUserResultType> {
+    async getUser(input: GetUserInputType, cacheGet: Function): Promise<GetUserResultType> {
+        const cache = await cacheGet(input.id);
+
+        if (cache) {
+            return { user: cache, success: true }
+        }
+
         const user = await this.prismaService.user.findUnique({
             where: { id: input.id }
         })
