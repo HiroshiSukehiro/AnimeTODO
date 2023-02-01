@@ -131,6 +131,8 @@ export class UserWithoutPass {
 export class UserWithLogs {
     id: number;
     email: string;
+    statisticRang?: Nullable<number>;
+    statisticScore?: Nullable<number>;
     username: string;
     firstname?: Nullable<string>;
     lastName?: Nullable<string>;

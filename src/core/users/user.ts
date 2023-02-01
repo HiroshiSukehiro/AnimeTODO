@@ -18,10 +18,10 @@ export class User {
     @Field()
     passwordHash: string
 
-    @Field(() => String, {nullable: true})
+    @Field(() => String, { nullable: true })
     firstname?: string | null
-    
-    @Field(() => String, {nullable: true})
+
+    @Field(() => String, { nullable: true })
     lastName?: string | null
 
     @Field(() => Date)
@@ -40,10 +40,10 @@ export class UserWithoutPass {
     @IsEmail()
     username: string
 
-    @Field(() => String, {nullable: true})
+    @Field(() => String, { nullable: true })
     firstname?: string | null
-    
-    @Field(() => String, {nullable: true})
+
+    @Field(() => String, { nullable: true })
     lastName?: string | null
 
     @Field(() => Date)
@@ -58,22 +58,28 @@ export class UserWithLogs {
     @Field()
     email: string
 
+    @Field(() => Int, { nullable: true })
+    statisticRang?: number
+
+    @Field(() => Int, { nullable: true })
+    statisticScore?: number
+
     @Field()
     @IsEmail()
     username: string
 
-    @Field(() => String, {nullable: true})
+    @Field(() => String, { nullable: true })
     firstname?: string | null
-    
-    @Field(() => String, {nullable: true})
+
+    @Field(() => String, { nullable: true })
     lastName?: string | null
 
     @Field(() => Date)
     createdAt: Date
 
-    @Field(() => [Task], {nullable: true})
+    @Field(() => [Task], { nullable: true })
     tasks?: Task[]
 
-    @Field(() => [Log], {nullable: true})
+    @Field(() => [Log], { nullable: true })
     logs?: Log[]
 }

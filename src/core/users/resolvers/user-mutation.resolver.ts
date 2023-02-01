@@ -23,7 +23,7 @@ export class UserMutationResolver extends UserRootResolver {
         return await this.userService.updateUser(input);
     }
 
-    @ResolveField(() => DeleteUserResultType, { middleware: [LoggerMiddleware, CheckAuthMiddleware] })
+    @ResolveField(() => DeleteUserResultType, { middleware: [CheckAuthMiddleware] })
     async deleteUser(@Args() input: DeleteUserInputType): Promise<DeleteUserResultType> {
         return await this.userService.deleteUser(input);
     }

@@ -17,5 +17,5 @@ export class GetUserWithLogsResultType extends BaseResultType {
         nullable: true,
         description: 'User with Logs',
     })
-    user: UserWithLogs | null;
+    user: UserWithLogs  | null;
 }
