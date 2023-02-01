@@ -23,6 +23,7 @@ export class GetStatisticResultType {
     success: boolean;
     errors: string[];
     statistic?: Nullable<StatisticUser[]>;
+    statisticCount: number;
 }
 
 export class StatisticMutationType {
@@ -162,7 +163,7 @@ export class GetUserResultType {
 
 export class GetUserWithLogsResultType {
     success: boolean;
-    errors?: Nullable<string[]>;
+    errors: string[];
     user?: Nullable<UserWithLogs>;
 }
 
