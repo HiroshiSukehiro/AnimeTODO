@@ -40,7 +40,7 @@ export class StatisticService {
             skip,
             take
         })
-        const result = statistic.map((el) => ({ userId: el.userId, count: el._count.userId }) )
-        return { statistic: result, success: true }
+        const result = statistic.map((el) => ({ userId: el.userId, count: el._count.userId }))
+        return { statistic: result, success: true, statisticCount: result.length }
     }
 }

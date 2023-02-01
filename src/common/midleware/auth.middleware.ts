@@ -21,7 +21,6 @@ export const AuthMiddleware: FieldMiddleware = async (
                     ctx.context.req.user = user;
                     return next()
                 }
-                if (!ctx.context.req.user) await next();
             }
         }
     }
