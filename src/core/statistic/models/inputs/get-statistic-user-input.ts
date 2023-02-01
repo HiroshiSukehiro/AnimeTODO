@@ -6,7 +6,7 @@ import { PaginationInputType } from "../../../../common/models/pagination/pagina
 export class GetStatisticInputType extends PaginationInputType {
 
     @Field(() => Int, { nullable: true })
-    id: number
+    id?: number
 
     @Field(() => Int, { nullable: true })
     userId?: number
@@ -22,4 +22,10 @@ export class GetStatisticInputType extends PaginationInputType {
 
     @Field(() => Date, { nullable: true })
     createdAt?: Date
+
+    @Field(() => Date, { nullable: true })
+    dateStart?: Date
+
+    @Field(() => Date, { nullable: true })
+    dateEnd?: Date
 } 

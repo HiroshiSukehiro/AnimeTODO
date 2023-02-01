@@ -10,7 +10,7 @@ export class BaseResultType {
     success: boolean
 
     @Field(() => [String], {
-        nullable: true,
+        defaultValue: [],
         description: 'Errors description'
     })
     errors?: string[]
