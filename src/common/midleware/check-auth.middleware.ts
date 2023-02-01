@@ -6,16 +6,16 @@ export const CheckAuthMiddleware: FieldMiddleware = async (
   ctx: MiddlewareContext,
   next: NextFn,
 ) => {
-  const auth = ctx.context.req.cookies['authorization'] || ctx.context.req.headers.authorization;
-  const prismaService = new PrismaService();
-  if (!!auth) {
-      const { string }: any = jwtDecode(auth)
-      if (!!string) {
-          const user = await prismaService.user.findUnique({where: {email: string}});
-          if (!!user) {
-            return next();
-          }
+    const auth = ctx.context.req.cookies['authorization'] || ctx.context.req.headers.authorization;
+    const prismaService = new PrismaService();
+    if (!!auth) {
+      const { email }: any = jwtDecode(auth)
+      if (!!email) {
+        const user = await prismaService.user.findUnique({where: {email}});
+        if (!!user) {
+          return next();
+        }
       } 
-  } 
+    } 
   return {success: false};
 };

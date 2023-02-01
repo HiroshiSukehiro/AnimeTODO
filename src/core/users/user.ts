@@ -1,5 +1,5 @@
 import { Field, Int, ObjectType } from "@nestjs/graphql";
-import { Statistic } from "../statistic/statistic";
+import { Log } from "../log/log";
 import { IsEmail } from 'class-validator';
 import { Task } from "../tasks/task";
 
@@ -74,6 +74,6 @@ export class UserWithLogs {
     @Field(() => [Task], {nullable: true})
     tasks?: Task[]
 
-    @Field(() => [Statistic], {nullable: true})
-    logs?: Statistic[]
+    @Field(() => [Log], {nullable: true})
+    logs?: Log[]
 }
