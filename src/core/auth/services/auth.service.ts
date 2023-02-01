@@ -36,9 +36,7 @@ export class AuthService {
 
   async login(user: LoginTokenInputType): Promise<LoginResultType> {
     const payload = user.email;
-    console.log(payload);
     const token = this.jwtService.sign(payload);
-    console.log(token);
     return {
       token,
       success: true

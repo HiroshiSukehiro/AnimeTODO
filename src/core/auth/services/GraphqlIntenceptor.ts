@@ -7,8 +7,6 @@ export class GraphqlUserInterceptor implements NestInterceptor {
         const ctx = GqlExecutionContext.create(context);
         const request = ctx.getContext().req;
   
-        console.log('request', request);
-  
         return next.handle();
     }
   }

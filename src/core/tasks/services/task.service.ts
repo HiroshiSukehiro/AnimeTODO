@@ -70,7 +70,6 @@ export class TaskService extends ValidationTaskService {
             where: { id: input.id }, 
             data: input 
         })
-        console.log('TASK', task);
         
         cacheIn(task);
 

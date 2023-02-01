@@ -36,7 +36,6 @@ export class CacheDBService extends CacheBaseService {
     }
 
     async mutationResolver(queryType: CacheType, OPType: OperationType, payload: any) {
-        console.log(queryType, OPType,);
         
         if(OPType === 'delete') {
             await this.deleteCacheSet(queryType, payload.id)
@@ -51,8 +50,6 @@ export class CacheDBService extends CacheBaseService {
     async queryResolver(queryType: CacheType, id: number) {
         const counter = await this.incCounter(queryType, id);
         const exists = await this.checkExistsOne(queryType, id, { type: "data" });
-        
-        console.log('COUNTER', counter);
 
         if (counter >= 10 && !exists) {
             const data = await this.getDataFromDBById(queryType, id)
