@@ -1,33 +1,32 @@
 import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { PasswordService } from '../password.service';
 import { PrismaService } from "../../../database/prisma.service";
-import { User } from '../../users/user';
 import { JwtService } from '@nestjs/jwt';
 import { LoginResultType } from '../models/results/login-token-result';
 import { LoginTokenInputType } from '../models/inputs/login-token-input';
 import { GetUserResultType } from '../../users/models/results/get-user-result';
-import { Request } from 'express';
+import jwtDecode from 'jwt-decode';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private prismaService: PrismaService, 
+    private prismaService: PrismaService,
     @Inject(forwardRef(() => PasswordService))
     private passwordService: PasswordService,
-    private jwtService: JwtService
-  ) {}
-  
+    private jwtService: JwtService,
+  ) { }
+
   async validateUser(email: string, password: string) {
     const user = await this.prismaService.user.findFirst({
       where: {
         email: email
       }
     });
-    if(!user) {
+    if (!user) {
       throw new Error('Вы пытаетесь передать пустой объект');
     }
     const isPassword = await this.passwordService.comparePassword(password, user.passwordHash);
-    if(user && isPassword) {
+    if (user && isPassword) {
       const { passwordHash, ...rest } = user;
       return rest;
     }
@@ -36,23 +35,28 @@ export class AuthService {
   }
 
   async login(user: LoginTokenInputType): Promise<LoginResultType> {
-    const payload = { email: user.email };
+    const payload = user.email;
+    console.log(payload);
+    const token = this.jwtService.sign(payload);
+    console.log(token);
     return {
-      token: this.jwtService.sign(payload), 
+      token,
       success: true
     }
   }
 
-  async getUserByToken(req: any): Promise<GetUserResultType> {
-    if (!req) {return {user: null, success: false}}
-    let email = req.email;
-    const user = await this.prismaService.user.findFirst({
-      where: {email}
+  async getUserByToken(token: string): Promise<GetUserResultType> {
+
+    if (!token) { return { user: null, success: false } }
+    const decoded: any = jwtDecode(token)
+    let email = decoded.email;
+    const user = await this.prismaService.user.findUnique({
+      where: { email }
     });
-    if(!user) {return {user: null, success: false}}
+    if (!user) { return { user: null, success: false } }
 
-    const {passwordHash, ...data} = user;
+    const { passwordHash, ...data } = user;
 
-    return {user: data, success: true}
+    return { user: data, success: true }
   }
 }

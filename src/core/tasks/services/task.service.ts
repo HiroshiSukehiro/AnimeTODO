@@ -48,9 +48,7 @@ export class TaskService extends ValidationTaskService {
     
     async createTask(input: CreateTaskInputType): Promise<CreateTaskResultType> {
         const task = await this.prismaService.task.create({data: {
-        ...input,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        ...input
      }})
      
      return this.validationTaskSuccess(task);

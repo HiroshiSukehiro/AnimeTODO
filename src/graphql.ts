@@ -14,6 +14,24 @@ export enum TaskStatus {
     COMPLETED = "COMPLETED"
 }
 
+export class StatisticUser {
+    count: number;
+    userId: number;
+}
+
+export class GetStatisticResultType {
+    success: boolean;
+    statistic?: Nullable<StatisticUser[]>;
+}
+
+export class StatisticMutationType {
+    deleteStatistic: GetStatisticResultType;
+}
+
+export class StatisticQueryType {
+    getStatistic: GetStatisticResultType;
+}
+
 export class Task {
     id: number;
     authorId: number;
@@ -139,6 +157,8 @@ export class UserQueryType {
 }
 
 export abstract class IQuery {
+    abstract StatisticQueries(): StatisticQueryType | Promise<StatisticQueryType>;
+
     abstract taskQueries(): TaskQueryType | Promise<TaskQueryType>;
 
     abstract userQueries(): UserQueryType | Promise<UserQueryType>;
@@ -147,6 +167,8 @@ export abstract class IQuery {
 }
 
 export abstract class IMutation {
+    abstract StatisticMutations(): StatisticMutationType | Promise<StatisticMutationType>;
+
     abstract taskMutations(): TaskMutationType | Promise<TaskMutationType>;
 
     abstract userMutations(): UserMutationType | Promise<UserMutationType>;

@@ -1,7 +1,5 @@
-// import { Task } from "@prisma/client";
-import { PaginationInputType } from '../../../common/models/pagination/pagination-input';
 import { Args, ResolveField, Resolver } from '@nestjs/graphql';
-import { LoggerMiddleware } from '../../../common/midleware/logger.middleware';
+import { CheckAuthMiddleware, LoggerMiddleware } from '../../../common/midleware';
 import { GetTaskByStatusInputType, GetTaskInputType, GetTasksInputType } from '../models/inputs';
 import { GetTasksByStatusResultType, GetTaskResultType, GetTasksResultType } from '../models/results';
 import { TaskService } from '../services/task.service';
@@ -12,25 +10,25 @@ import { TaskQueryType } from './task-root.resolver';
 export class TaskQueryResolver {
     constructor(
         private readonly taskService: TaskService
-    ) {}
+    ) { }
 
-    @ResolveField(() => GetTaskResultType, { middleware: [LoggerMiddleware]})
+    @ResolveField(() => GetTaskResultType, { middleware: [LoggerMiddleware, CheckAuthMiddleware] })
     async getTask(@Args() input: GetTaskInputType): Promise<GetTaskResultType> {
         return await this.taskService.getTask(input);
     }
-    
+
     //Promise<GetTaskByStatusResultType>
-    @ResolveField(() => GetTasksByStatusResultType)
-    async getTaskByStatus(@Args() input: GetTaskByStatusInputType)  {
+    @ResolveField(() => GetTasksByStatusResultType, { middleware: [LoggerMiddleware, CheckAuthMiddleware] })
+    async getTaskByStatus(@Args() input: GetTaskByStatusInputType) {
         return await this.taskService.getTaskByStatus(input);
-        
+
     }
 
-    @ResolveField(() => GetTasksResultType)
+    @ResolveField(() => GetTasksResultType, { middleware: [LoggerMiddleware, CheckAuthMiddleware] })
     async getTasks(
         @Args() input: GetTasksInputType,
-    ): Promise<GetTasksResultType>{       
+    ): Promise<GetTasksResultType> {
         return await this.taskService.getTasks(input);
-  
+
     }
 }
