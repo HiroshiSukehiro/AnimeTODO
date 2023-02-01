@@ -5,6 +5,7 @@
 <p align="center">(использовать это)docker-compose up -d ИЛИ !!!(Пока не работает) docker build -t anime-todo .</p>
 <p align="center">pnpm run dev</p>
   
+<h2>Если приложение не стартует со странными ошибками стоит сперва удалить graphql.ts и schema.gql</h2>
 <h2>Если докер жрёт всю оперативу без работающих контейнеров то для Windows: "wsl --shutdown" Linux: "systemctl disable docker"(не уверен)</h2>
-<h3>если докер не стартует - перезапускай систему =)</h2>
+<h3>Если докер не стартует - перезапускай систему =)</h2>
 # AnimeTODO

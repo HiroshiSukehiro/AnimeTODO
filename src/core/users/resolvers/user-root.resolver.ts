@@ -1,7 +1,7 @@
 import { Field, Mutation, ObjectType, Query, Resolver } from "@nestjs/graphql";
-import { CacheInterceptor, ReqType } from "../../../common/interceptors/cache-interceptor/cache-interceptor";
-import { UseInterceptors } from "@nestjs/common";
 import { UpdateUserResultType, DeleteUserResultType, GetUsersResultType, GetUserResultType, CreateUserResultType } from "../models/results";
+import { CacheQuery } from "../../../common/decorators/cache-query.decorator";
+import { CacheMutation } from "../../../common/decorators/cache-mutation.decorator";
 
 @ObjectType()
 export class UserMutationType {
@@ -36,6 +36,7 @@ export class UserQueryType {
 
 @Resolver()
 export class UserRootResolver {
+    @CacheMutation({type: 'user'})
     @Mutation(() => UserMutationType, {
         description: 'User mutations',
     })
@@ -43,8 +44,7 @@ export class UserRootResolver {
         return {};
     }
 
-    @ReqType({query: 'user'})
-    @UseInterceptors(CacheInterceptor)
+    @CacheQuery({type: 'user'})
     @Query(() => UserQueryType, { 
         description: 'User queries' 
     })

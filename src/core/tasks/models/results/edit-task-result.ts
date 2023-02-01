@@ -9,5 +9,5 @@ export class EditTaskResultType extends BaseResultType {
         nullable: true,
         description: 'Edit Task',
     })
-    task: Task | null;
+    task?: Task | null;
 }

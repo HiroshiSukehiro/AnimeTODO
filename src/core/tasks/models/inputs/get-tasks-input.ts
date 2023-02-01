@@ -1,6 +1,5 @@
 import { PaginationInputType } from '../../../../common/models/pagination/pagination-input';
 import { ArgsType, Field, Int } from '@nestjs/graphql';
-import { IsBoolean, IsDate, IsNumber, IsOptional, IsString } from 'class-validator';
 import { TaskStatus } from '@prisma/client';
 
 @ArgsType()

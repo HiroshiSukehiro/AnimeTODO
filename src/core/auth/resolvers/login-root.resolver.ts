@@ -1,6 +1,4 @@
 import { Field, Mutation, ObjectType, Query, Resolver } from "@nestjs/graphql";
-import { CacheInterceptor, ReqType } from "../../../common/interceptors/cache-interceptor/cache-interceptor";
-import { UseInterceptors } from "@nestjs/common";
 import { GetUserResultType, } from "../../users/models/results";
 import { LoginResultType } from "../models/results/login-token-result";
 
@@ -29,8 +27,6 @@ export class LoginRootResolver {
         return {};
     }
 
-    @ReqType({query: 'user'})
-    @UseInterceptors(CacheInterceptor)
     @Query(() => LoginQueryType, { 
         description: 'Login queries' 
     })

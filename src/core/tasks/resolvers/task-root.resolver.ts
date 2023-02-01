@@ -1,7 +1,5 @@
-import { UseInterceptors } from '@nestjs/common';
+import { CacheMutation } from '../../../common/decorators/cache-mutation.decorator';
 import { Field, Mutation, ObjectType, Query, Resolver } from '@nestjs/graphql';
-
-import { CacheInterceptor, ReqType } from '../../../common/interceptors/cache-interceptor/cache-interceptor';
 import {
     CreateTaskResultType,
     DeleteTaskResultType,
@@ -10,6 +8,7 @@ import {
     GetTaskResultType,
     GetTasksResultType,
 } from '../models/results';
+import { CacheQuery } from '../../../common/decorators/cache-query.decorator';
 
 @ObjectType()
 export class TaskMutationType {
@@ -49,6 +48,7 @@ export class TaskQueryType {
 
 @Resolver()
 export class TaskRootResolver {
+    @CacheMutation({type: 'task'})
     @Mutation(() => TaskMutationType, {
         description: 'Task mutations',
     })
@@ -56,8 +56,7 @@ export class TaskRootResolver {
         return {};
     }
 
-    @ReqType({query: 'task'})
-    @UseInterceptors(CacheInterceptor)
+    @CacheQuery({type: 'task'})
     @Query(() => TaskQueryType, { 
         description: 'Task queries' 
     })

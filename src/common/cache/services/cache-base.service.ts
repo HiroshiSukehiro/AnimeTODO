@@ -1,4 +1,4 @@
-import { QueryCacheType } from "../../types/query-types";
+import { CacheType } from "../../types/cache-types";
 import { InjectRedis, Redis } from "@nestjs-modules/ioredis";
 import { Injectable } from "@nestjs/common";
 import { CacheOptions } from "../../types/cache-types";
@@ -10,27 +10,27 @@ export class CacheBaseService {
     ) {}
 
     //obviously
-    protected async checkExistsOne(queryType: QueryCacheType, id: number, opts: CacheOptions) {
-        const exists = await this.redis.exists(`${queryType.query}:${id}:${opts.type}`);
+    protected async checkExistsOne(queryType: CacheType, id: number, opts: CacheOptions) {
+        const exists = await this.redis.exists(`${queryType.type}:${id}:${opts.type}`);
         return !!exists;
     }
 
     //caching some data
-    protected async setCacheJson(queryType: QueryCacheType, id: number, data: any) {
+    protected async setCacheJson(queryType: CacheType, id: number, data: any) {
         const strData = JSON.stringify(data);
-        const value = await this.redis.set(`${queryType.query}:${id}:data`, strData, 'EX', 1800);
+        const value = await this.redis.set(`${queryType.type}:${id}:data`, strData, 'EX', 1800);
         return value;
     }
     
     //receive cached data
-    protected async getCacheJson<T>(queryType: QueryCacheType, id: number): Promise<T | null> {
-        const data = await this.redis.get(`${queryType.query}:${id}:data`);
+    protected async getCacheJson<T>(queryType: CacheType, id: number): Promise<T | null> {
+        const data = await this.redis.get(`${queryType.type}:${id}:data`);
         return data && JSON.parse(data) || null;
     }
 
     //increase counter and prolongs life time of cache counter
-    protected async incCounter(queryType: QueryCacheType, id: number) {
-        const keyCount = `${queryType.query}:${id}:count`;
+    protected async incCounter(queryType: CacheType, id: number) {
+        const keyCount = `${queryType.type}:${id}:count`;
         const exists = !!await this.redis.exists(keyCount);
 
         if (!exists) {

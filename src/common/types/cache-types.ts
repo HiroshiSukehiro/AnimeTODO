@@ -6,4 +6,10 @@ export type CacheOptions = {
     type: CacheOptionsType
 }
 
-export type Receiver<T> = Prisma.Prisma__UserClient<T | null, null>
+type queryName = 'task' | 'user';
+
+export type CacheType = {
+    type: queryName;
+}
+
+export type OperationType = 'update' | 'delete';

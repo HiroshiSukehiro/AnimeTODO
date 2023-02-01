@@ -5,6 +5,8 @@ import { PrismaService } from '../../../database/prisma.service';
 import { CreateTaskInputType, GetTaskByStatusInputType, GetTaskInputType, GetTasksInputType } from '../models/inputs';
 import { CreateTaskResultType, DeleteTaskResultType, EditTaskResultType, GetTasksByStatusResultType, GetTaskResultType, GetTasksResultType } from '../models/results';
 import {ValidationTaskService} from "./validation-task.service"
+import { DeleteTaskInputType } from '../models/inputs/delete-task-input';
+import { EditTaskInputType } from '../models/inputs/edit-task-input';
 
 
 @Injectable()
@@ -54,13 +56,23 @@ export class TaskService extends ValidationTaskService {
      return this.validationTaskSuccess(task);
     }
 
-    async editTask(input: GetTasksInputType): Promise<EditTaskResultType>{
-        const task = await this.prismaService.task.update({where: {id: input.id}, data: input})
+    async editTask(input: EditTaskInputType, cacheIn: Function): Promise<EditTaskResultType>{
+
+        const task = await this.prismaService.task.update({ 
+            where: { id: input.id }, 
+            data: input 
+        })
+
+        cacheIn(task);
+
         return this.validationTaskSuccess(task);
     }
 
-    async deleteTask(input:GetTaskInputType):  Promise<DeleteTaskResultType>{
+    async deleteTask(input: DeleteTaskInputType, cacheIn: Function):  Promise<DeleteTaskResultType>{
         const task = await this.prismaService.task.delete({where: {id: input.id}})
+
+        cacheIn(task)
+        
         return this.validationTaskSuccess(task);
     }
 }
