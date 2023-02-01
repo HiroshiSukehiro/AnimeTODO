@@ -9,8 +9,9 @@ export class BaseResultType {
     })
     success: boolean
 
-    // @Field(() => Array<String>, {
-    //     description: 'Errors description'
-    // })
-    // errors: Array<string>
+    @Field(() => [String], {
+        nullable: true,
+        description: 'Errors description'
+    })
+    errors?: string[]
 }

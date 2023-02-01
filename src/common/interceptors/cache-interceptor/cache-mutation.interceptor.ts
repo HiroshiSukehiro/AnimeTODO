@@ -17,10 +17,7 @@ export class CacheMutationInterceptor implements NestInterceptor {
 
         req.fill = (param: OperationType) => (data: any) => {
             const query = this.reflector.get<CacheType>('options', context.getHandler());
-            console.log('MUTANT INTERCEPTOR PARAM', query);
-            console.log('FILL MUTANT INTERCETOR', data);
-            
-            this.cacheDBService.mutationResolver(query, param, data)
+            this.cacheDBService.mutationResolver(query, param, data);
         };
         
         

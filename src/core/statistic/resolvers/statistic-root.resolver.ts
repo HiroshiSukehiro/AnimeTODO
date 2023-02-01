@@ -1,7 +1,5 @@
-import { UseInterceptors } from '@nestjs/common';
 import { Field, Mutation, ObjectType, Query, Resolver } from '@nestjs/graphql';
 
-import { CacheInterceptor, ReqType } from '../../../common/interceptors/cache-interceptor/cache-interceptor';
 import {
     GetStatisticResultType,
 } from '../models/results/get-statistic-user-result';
@@ -33,8 +31,6 @@ export class StatisticRootResolver {
         return {};
     }
 
-    @ReqType({ query: 'statistic' })
-    @UseInterceptors(CacheInterceptor)
     @Query(() => StatisticQueryType, {
         description: 'Statistic queries'
     })

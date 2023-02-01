@@ -36,7 +36,7 @@ export class TaskService extends ValidationTaskService {
         delete where.take;
 
         const skip = input.skip || 0;
-        const take = input.skip || 10;
+        const take = input.take || 10;
 
         const tasks = await this.prismaService.task.findMany({
             where,
@@ -60,7 +60,8 @@ export class TaskService extends ValidationTaskService {
             where: { id: input.id }, 
             data: input 
         })
-
+        console.log('TASK', task);
+        
         cacheIn(task);
 
         return this.validationTaskSuccess(task);
@@ -70,7 +71,7 @@ export class TaskService extends ValidationTaskService {
         const task = await this.prismaService.task.delete({where: {id: input.id}})
 
         cacheIn(task)
-        
+
         return this.validationTaskSuccess(task);
     }
 }

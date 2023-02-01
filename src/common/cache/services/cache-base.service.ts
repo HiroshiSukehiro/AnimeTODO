@@ -15,10 +15,17 @@ export class CacheBaseService {
         return !!exists;
     }
 
+    //delete counter and cached data
+    protected async deleteCacheSet(queryType: CacheType, id: number) {
+        await this.redis.del(`${queryType.type}:${id}:count`);
+        return !!await this.redis.del(`${queryType.type}:${id}:data`);
+    }
+
     //caching some data
     protected async setCacheJson(queryType: CacheType, id: number, data: any) {
         const strData = JSON.stringify(data);
         const value = await this.redis.set(`${queryType.type}:${id}:data`, strData, 'EX', 1800);
+        await this.redis.expire(`${queryType.type}:${id}:count`, 1800);
         return value;
     }
     

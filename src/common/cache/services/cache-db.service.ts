@@ -36,8 +36,16 @@ export class CacheDBService extends CacheBaseService {
     }
 
     async mutationResolver(queryType: CacheType, OPType: OperationType, payload: any) {
-        // const data = await this.getDataFromDBById(queryType, id);
-        // await this.setCacheJson(queryType, id, data);
+        console.log(queryType, OPType,);
+        
+        if(OPType === 'delete') {
+            await this.deleteCacheSet(queryType, payload.id)
+        }
+        if(OPType === 'update') {
+            console.log('UPD', queryType.type, OPType, payload);
+            
+            await this.setCacheJson(queryType, payload.id, payload)
+        }
     }
 
     async queryResolver(queryType: CacheType, id: number) {
