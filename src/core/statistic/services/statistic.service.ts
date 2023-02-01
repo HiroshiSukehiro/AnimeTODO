@@ -20,12 +20,18 @@ export class StatisticService {
         const skip = input.skip || 0;
         const take = input.skip || 10;
 
-        const dateStart = new Date().toISOString()
+        const dateStart = input.dateStart 
+            ? new Date(input.dateStart).toISOString()
+            : new Date(Date.now() - 1000 * 60 * 60 * 24 * 7).toISOString()
+        const dateEnd = input.dateEnd 
+            ? new Date(input.dateEnd).toISOString()
+            : new Date(Date.now()).toISOString()
+
         const statistic = await this.prismaService.logs.groupBy({
             where: {
                 AND: [
-                    { createdAt: { gte: new Date(Date.now() - 1000 * 60 * 60 * 24 * 7) } },
-                    { createdAt: { lte: new Date(Date.now()) } }
+                    { createdAt: { gte: dateStart } },
+                    { createdAt: { lte: dateEnd } }
                 ]
             },
             by: ['userId'],

@@ -162,7 +162,7 @@ export class GetUserResultType {
 
 export class GetUserWithLogsResultType {
     success: boolean;
-    errors?: Nullable<string[]>;
+    errors: string[];
     user?: Nullable<UserWithLogs>;
 }
 
