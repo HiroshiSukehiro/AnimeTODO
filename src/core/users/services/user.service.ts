@@ -18,6 +18,8 @@ export class UserService {
         const cache = await cacheGet(input.id);
 
         if (cache) {
+            cache.createdAt = cache.createdAt ? new Date(cache.createdAt) : null;
+            cache.deleted = cache.deleted ? new Date(cache.deleted) : null;
             return { user: cache, success: true }
         }
 

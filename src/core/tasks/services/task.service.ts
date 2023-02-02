@@ -21,9 +21,9 @@ export class TaskService extends ValidationTaskService {
         const cache = await cacheGet(input.id);
 
         if (cache) {
-            cache.createdAt = new Date(cache.createdAt)
-            cache.updatedAt = new Date(cache.updatedAt)
-            cache.expires = new Date(cache.expires)
+            cache.createdAt = cache.createdAt ? new Date(cache.createdAt) : null;
+            cache.updatedAt = cache.updatedAt ? new Date(cache.updatedAt) : null;
+            cache.expires = cache.expires ? new Date(cache.expires) : null;
 
             return this.validationTaskSuccess(cache);
         }
