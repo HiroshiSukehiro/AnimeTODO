@@ -14,24 +14,13 @@ export enum TaskStatus {
     COMPLETED = "COMPLETED"
 }
 
-export class StatisticUser {
-    count: number;
+export class Log {
+    id: number;
     userId: number;
-}
-
-export class GetStatisticResultType {
-    success: boolean;
-    errors: string[];
-    statistic?: Nullable<StatisticUser[]>;
-    statisticCount: number;
-}
-
-export class StatisticMutationType {
-    deleteStatistic: GetStatisticResultType;
-}
-
-export class StatisticQueryType {
-    getStatistic: GetStatisticResultType;
+    message?: Nullable<string>;
+    args?: Nullable<string>;
+    sourse?: Nullable<string>;
+    createdAt: DateTime;
 }
 
 export class Task {
@@ -44,6 +33,54 @@ export class Task {
     status: TaskStatus;
     createdAt: DateTime;
     updatedAt?: Nullable<DateTime>;
+}
+
+export class User {
+    id: number;
+    email: string;
+    username: string;
+    passwordHash: string;
+    firstname?: Nullable<string>;
+    lastName?: Nullable<string>;
+    createdAt: DateTime;
+}
+
+export class UserWithoutPass {
+    id: number;
+    email: string;
+    username: string;
+    firstname?: Nullable<string>;
+    lastName?: Nullable<string>;
+    createdAt: DateTime;
+}
+
+export class UserWithLogs {
+    id: number;
+    email: string;
+    statisticRang?: Nullable<number>;
+    statisticScore?: Nullable<number>;
+    username: string;
+    firstname?: Nullable<string>;
+    lastName?: Nullable<string>;
+    createdAt: DateTime;
+    tasks?: Nullable<Task[]>;
+    logs?: Nullable<Log[]>;
+}
+
+export class StatisticUser {
+    count: number;
+    user: UserWithoutPass;
+}
+
+export class GetStatisticResultType {
+    success: boolean;
+    errors: string[];
+    statistic?: Nullable<StatisticUser[]>;
+    statisticCount: number;
+}
+
+export class StatisticQueryType {
+    getStatistic: GetStatisticResultType;
 }
 
 export class CreateTaskResultType {
@@ -98,47 +135,6 @@ export class LoginResultType {
     success: boolean;
     errors: string[];
     token?: Nullable<string>;
-}
-
-export class Log {
-    id: number;
-    userId: number;
-    message?: Nullable<string>;
-    args?: Nullable<string>;
-    sourse?: Nullable<string>;
-    createdAt: DateTime;
-}
-
-export class User {
-    id: number;
-    email: string;
-    username: string;
-    passwordHash: string;
-    firstname?: Nullable<string>;
-    lastName?: Nullable<string>;
-    createdAt: DateTime;
-}
-
-export class UserWithoutPass {
-    id: number;
-    email: string;
-    username: string;
-    firstname?: Nullable<string>;
-    lastName?: Nullable<string>;
-    createdAt: DateTime;
-}
-
-export class UserWithLogs {
-    id: number;
-    email: string;
-    statisticRang?: Nullable<number>;
-    statisticScore?: Nullable<number>;
-    username: string;
-    firstname?: Nullable<string>;
-    lastName?: Nullable<string>;
-    createdAt: DateTime;
-    tasks?: Nullable<Task[]>;
-    logs?: Nullable<Log[]>;
 }
 
 export class CreateUserResultType {
@@ -209,8 +205,6 @@ export abstract class IQuery {
 }
 
 export abstract class IMutation {
-    abstract StatisticMutations(): StatisticMutationType | Promise<StatisticMutationType>;
-
     abstract taskMutations(): TaskMutationType | Promise<TaskMutationType>;
 
     abstract userMutations(): UserMutationType | Promise<UserMutationType>;

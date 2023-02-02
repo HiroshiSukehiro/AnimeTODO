@@ -20,10 +20,10 @@ export class StatisticService {
         const skip = input.skip || 0;
         const take = input.skip || 10;
 
-        const dateStart = input.dateStart 
+        const dateStart = input.dateStart
             ? new Date(input.dateStart).toISOString()
             : new Date(Date.now() - 1000 * 60 * 60 * 24 * 7).toISOString()
-        const dateEnd = input.dateEnd 
+        const dateEnd = input.dateEnd
             ? new Date(input.dateEnd).toISOString()
             : new Date(Date.now()).toISOString()
 
@@ -46,7 +46,10 @@ export class StatisticService {
             skip,
             take
         })
-        const result = statistic.map((el) => ({ userId: el.userId, count: el._count.userId }))
-        return { statistic: result, success: true, statisticCount: result.length }
+        const data = [];
+        for (let i = 0; i < statistic.length; i++) {
+            data[i] = { user: await this.prismaService.user.findUnique({ where: { id: statistic[i].userId } }), count: statistic[i]._count.userId }
+        }
+        return { statistic: data, success: true, statisticCount: statistic.length }
     }
 }
