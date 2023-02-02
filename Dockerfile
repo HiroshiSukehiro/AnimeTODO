@@ -6,7 +6,7 @@ RUN pnpm fetch
 COPY . ./
 RUN pnpm i --offline --frozen-lockfile
 RUN apk add --no-cache openssl openssl-dev libssl1.1 libssl3
-RUN pnpm prisma db pull
+RUN pnpm prisma db push
 RUN rm -rf dist/
 RUN pnpm run generate && pnpm run build
 RUN pnpm prune --prod
