@@ -12,8 +12,8 @@
   "scripts": {
     "start": "node ./dist/main.js",
     "dev": "ts-node-dev --trace-warnings --exit-child src/main.ts",
-    "build": "npx nest build && prisma migrate dev --name init",
-    "generate": "prisma generate",
+    "build": "npx nest build",
+    "generate": "prisma generate && prisma migrate dev --name init",
     "seed": "ts-node src/database/seeds/index.ts",
     "graphql": "ts-node src/generate-typings.ts",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
