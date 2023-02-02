@@ -4,6 +4,7 @@ import { UserMutationType, UserRootResolver } from "../resolvers/user-root.resol
 import { UpdateUserResultType, CreateUserResultType, DeleteUserResultType } from "../models/results";
 import { CheckAuthMiddleware, LoggerMiddleware } from '../../../common/midleware';
 import { UserService } from "../services/user.service";
+import { CacheIn } from "../../../common/decorators/cache-in.decorator";
 
 @Resolver(UserMutationType)
 export class UserMutationResolver extends UserRootResolver {
@@ -19,12 +20,12 @@ export class UserMutationResolver extends UserRootResolver {
     }
 
     @ResolveField(() => UpdateUserResultType, { middleware: [ CheckAuthMiddleware] })
-    async updateUser(@Args() input: UpdateUserInputType): Promise<UpdateUserResultType> {
+    async updateUser(@Args() input: UpdateUserInputType, @CacheIn('update') cacheIn: Function): Promise<UpdateUserResultType> {
         return await this.userService.updateUser(input);
     }
 
     @ResolveField(() => DeleteUserResultType, { middleware: [ CheckAuthMiddleware] })
-    async deleteUser(@Args() input: DeleteUserInputType): Promise<DeleteUserResultType> {
-        return await this.userService.deleteUser(input);
+    async deleteUser(@Args() input: DeleteUserInputType, @CacheIn('delete') cacheIn: Function): Promise<DeleteUserResultType> {
+        return await this.userService.deleteUser(input, cacheIn);
     }
 }
