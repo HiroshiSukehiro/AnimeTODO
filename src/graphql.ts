@@ -24,18 +24,6 @@ export class Log {
 
 }
 
-export class GetStatisticResultType {
-    success: boolean;
-    errors: string[];
-    statistic?: Nullable<StatisticUser[]>;
-    statisticCount: number;
-}
-
-export class StatisticQueryType {
-    getStatistic: GetStatisticResultType;
-
-}
-
 export class Task {
     id: number;
     authorId: number;
