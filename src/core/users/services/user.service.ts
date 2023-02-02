@@ -95,7 +95,7 @@ export class UserService {
         }
     }
 
-    async deleteUser(input: DeleteUserInputType): Promise<DeleteUserResultType> {
+    async deleteUser(input: DeleteUserInputType, cacheIn: Function): Promise<DeleteUserResultType> {
         const { password, email } = input;
 
         const user = await this.prismaService.user.findFirst({
@@ -103,7 +103,7 @@ export class UserService {
                 email
             }
         })
-
+        cacheIn(user)
         if (!user) { return { user: null, success: false } }
         const isValid = bcrypt.compareSync(password, user.passwordHash);
 
