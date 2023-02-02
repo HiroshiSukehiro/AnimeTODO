@@ -6,9 +6,9 @@ RUN pnpm fetch
 COPY . ./
 RUN pnpm i --offline --frozen-lockfile
 RUN apk add --no-cache openssl openssl-dev libssl1.1 libssl3
+RUN pnpm prisma db pull
 RUN rm -rf dist/
 RUN pnpm run generate && pnpm run build
-RUN pnpm prisma db pull
 RUN pnpm prune --prod
 FROM node:16-alpine
 WORKDIR /app
