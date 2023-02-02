@@ -26,10 +26,6 @@ export class GetStatisticResultType {
     statisticCount: number;
 }
 
-export class StatisticMutationType {
-    deleteStatistic: GetStatisticResultType;
-}
-
 export class StatisticQueryType {
     getStatistic: GetStatisticResultType;
 }
@@ -209,8 +205,6 @@ export abstract class IQuery {
 }
 
 export abstract class IMutation {
-    abstract StatisticMutations(): StatisticMutationType | Promise<StatisticMutationType>;
-
     abstract taskMutations(): TaskMutationType | Promise<TaskMutationType>;
 
     abstract userMutations(): UserMutationType | Promise<UserMutationType>;

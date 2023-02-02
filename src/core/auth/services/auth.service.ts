@@ -47,7 +47,7 @@ export class AuthService {
 
     if (!token) { return { user: null, success: false } }
     const decoded: any = jwtDecode(token)
-    let email = decoded.string;
+    let email = decoded.email;
     const user = await this.prismaService.user.findUnique({
       where: { email }
     });
