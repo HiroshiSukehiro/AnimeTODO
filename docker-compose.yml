@@ -15,6 +15,8 @@ services:
   redis:
     image: redis
     restart: always
+    command: >
+          --requirepass ${REDIS_PASSWORD}
     ports:
       - '${REDIS_PORT}:${REDIS_PORT}'
     volumes:

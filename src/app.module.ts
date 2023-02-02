@@ -31,8 +31,7 @@ import { AuthMiddleware } from './common/midleware/auth.middleware';
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         config: {
-          host: configService.get('REDIS_HOST'),
-          port: +configService.get('REDIS_PORT')
+          url: `redis://${configService.get('REDIS_USER')}:${configService.get('REDIS_PASSWORD')}@${configService.get('REDIS_HOST')}:${configService.get('REDIS_PORT')}`
         }
       })
     }),
