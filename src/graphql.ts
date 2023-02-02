@@ -21,6 +21,19 @@ export class Log {
     args?: Nullable<string>;
     sourse?: Nullable<string>;
     createdAt: DateTime;
+
+}
+
+export class GetStatisticResultType {
+    success: boolean;
+    errors: string[];
+    statistic?: Nullable<StatisticUser[]>;
+    statisticCount: number;
+}
+
+export class StatisticQueryType {
+    getStatistic: GetStatisticResultType;
+
 }
 
 export class Task {
