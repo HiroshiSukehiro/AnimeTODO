@@ -4,7 +4,6 @@ import {
     GetStatisticResultType,
 } from '../models/results/get-statistic-user-result';
 
-@ObjectType()
 
 @ObjectType()
 export class StatisticQueryType {
@@ -17,6 +16,7 @@ export class StatisticQueryType {
 
 @Resolver()
 export class StatisticRootResolver {
+
     @Query(() => StatisticQueryType, {
         description: 'Statistic queries'
     })

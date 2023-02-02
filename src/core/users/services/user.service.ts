@@ -142,11 +142,11 @@ export class UserService {
             include: {
                 tasks: { take: 20 },
                 logs: { take: 20 }, // Ограничение на 20 крайних логов
-                ...this.select
             },
             
         })
         if (!user) { return { user: null, success: false } }
-        return { user: { ...user, ...raiting }, success: true }
+        let {passwordHash, ...data} = user;
+        return { user: { ...data, ...raiting }, success: true }
     }
 }

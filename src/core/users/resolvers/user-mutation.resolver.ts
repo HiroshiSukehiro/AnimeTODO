@@ -19,7 +19,7 @@ export class UserMutationResolver extends UserRootResolver {
         return await this.userService.createUser(input)
     }
 
-    @ResolveField(() => UpdateUserResultType, { middleware: [ CheckAuthMiddleware] })
+    @ResolveField(() => UpdateUserResultType, { middleware: [LoggerMiddleware, CheckAuthMiddleware] })
     async updateUser(@Args() input: UpdateUserInputType, @CacheIn('update') cacheIn: Function): Promise<UpdateUserResultType> {
         return await this.userService.updateUser(input);
     }
