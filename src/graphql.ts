@@ -23,6 +23,7 @@ export class GetStatisticResultType {
     success: boolean;
     errors: string[];
     statistic?: Nullable<StatisticUser[]>;
+    statisticCount: number;
 }
 
 export class StatisticMutationType {
