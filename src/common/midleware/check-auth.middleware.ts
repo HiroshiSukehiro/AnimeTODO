@@ -10,7 +10,6 @@ export const CheckAuthMiddleware: FieldMiddleware = async (
   const prismaService = new PrismaService();
   if (!!auth) {
     const { email }: any = jwtDecode(auth)
-    console.log(email)
     if (!!email) {
       const user = await prismaService.user.findUnique({ where: { email } });
       if (!!user) {
