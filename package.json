@@ -12,7 +12,7 @@
   "scripts": {
     "start": "node ./dist/main.js",
     "dev": "ts-node-dev --trace-warnings --exit-child src/main.ts",
-    "build": "npx nest build",
+    "build": "npx nest build && prisma migrate dev --name init",
     "generate": "prisma generate",
     "seed": "ts-node src/database/seeds/index.ts",
     "graphql": "ts-node src/generate-typings.ts",
