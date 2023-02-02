@@ -131,10 +131,12 @@ export class UserService {
             },
         })
         const [raiting] = statisticUser.map((el, index) => el.userId === input.id && { statisticRang: index + 1, statisticScore: el._count.userId })
-        console.log(raiting)
         const user = await this.prismaService.user.findUnique({
             where: { id: input.id },
-            include: { tasks: true, logs: true }
+            include: {
+                tasks: { take: 20 },
+                logs: { take: 20 } // Ограничение на 20 крайних логов
+            }
         })
         if (!user) { return { user: null, success: false } }
         const { passwordHash, ...data } = user;
