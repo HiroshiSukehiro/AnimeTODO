@@ -14,6 +14,15 @@ export class UserService {
         private jwtService: JwtService
     ) { }
 
+    select = {
+        email: true,
+        username: true,
+        firstname: true,
+        lastName: true,
+        id: true,
+        createdAt: true
+    }
+
     async getUser(input: GetUserInputType, cacheGet: Function): Promise<GetUserResultType> {
         const cache = await cacheGet(input.id);
 
@@ -24,23 +33,18 @@ export class UserService {
         }
 
         const user = await this.prismaService.user.findUnique({
-            where: { id: input.id }
+            where: { id: input.id },   
+            select: this.select
         })
         if (!user) { return { user: null, success: false } }
-        const { passwordHash, ...data } = user;
-        return { user: data, success: true }
+        return { user: user, success: true }
     }
 
     async getUsers(): Promise<GetUsersResultType> {
-        const userList = await this.prismaService.user.findMany();
-        let userArr = [];
-        for (let i = 0; i < userList.length; i++) {
-            const { passwordHash, ...data } = userList[i];
-            userArr.push(data);
-        }
+        const userList = await this.prismaService.user.findMany({select: this.select});
         return {
             success: true,
-            users: userArr
+            users: userList
         };
     }
 
@@ -137,11 +141,12 @@ export class UserService {
             where: { id: input.id },
             include: {
                 tasks: { take: 20 },
-                logs: { take: 20 } // Ограничение на 20 крайних логов
-            }
+                logs: { take: 20 }, // Ограничение на 20 крайних логов
+                ...this.select
+            },
+            
         })
         if (!user) { return { user: null, success: false } }
-        const { passwordHash, ...data } = user;
-        return { user: { ...data, ...raiting }, success: true }
+        return { user: { ...user, ...raiting }, success: true }
     }
 }

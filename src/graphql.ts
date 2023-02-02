@@ -91,7 +91,6 @@ export class TaskMutationType {
 export class TaskQueryType {
     getTask: GetTaskResultType;
     getTasks: GetTasksResultType;
-    getTasksByStatus: GetTasksByStatusResultType;
     getTaskByStatus: GetTasksByStatusResultType;
 }
 

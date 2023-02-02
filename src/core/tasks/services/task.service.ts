@@ -64,7 +64,7 @@ export class TaskService extends ValidationTaskService {
     }
 
     async editTask(input: EditTaskInputType, cacheIn: Function, req: Request & { user: { id: number } }): Promise<EditTaskResultType> {
-        if (input.id === req.user.id) {
+        if (input.authorId === req.user.id) {
             const task = await this.prismaService.task.update({
                 where: { id: input.id },
                 data: input

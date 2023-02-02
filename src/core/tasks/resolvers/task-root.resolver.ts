@@ -39,11 +39,6 @@ export class TaskQueryType {
         description: 'Get task list',
     })
     getTasks: GetTasksResultType;
-
-    @Field(() => GetTasksByStatusResultType, {
-        description: 'Get a list of tasks by status',
-    })
-    getTasksByStatus: GetTasksByStatusResultType;
 }
 
 @Resolver()
